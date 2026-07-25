@@ -1,26 +1,171 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffdfb;
+  --foreground: #2f2927;
+
+  --color-primary: #a87868;
+  --color-primary-dark: #805849;
+  --color-secondary: #ead8d0;
+  --color-accent: #c8a97e;
+
+  --color-surface: #f8f3f0;
+  --color-surface-light: #fffaf7;
+
+  --color-text: #2f2927;
+  --color-text-muted: #766d69;
+  --color-border: #eadfd9;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.container-custom {
+  width: min(100% - 2rem, 1280px);
+  margin-inline: auto;
+}
+
+.section-spacing {
+  padding-block: 5rem;
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    width: min(100% - 4rem, 1280px);
+  }
+
+  .section-spacing {
+    padding-block: 7rem;
+  }
+}
+
+.hero-swiper,
+.hero-swiper .swiper-wrapper,
+.hero-swiper .swiper-slide {
+  min-height: 100vh;
+}
+
+.hero-swiper .swiper-slide {
+  overflow: hidden;
+}
+
+.hero-swiper .swiper-slide-active {
+  z-index: 2;
+}
+
+.hero-button-prev.swiper-button-disabled,
+.hero-button-next.swiper-button-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .hero-swiper,
+  .hero-swiper .swiper-wrapper,
+  .hero-swiper .swiper-slide {
+    min-height: 100svh;
+  }
+}
+
+.image-grain {
+  position: relative;
+}
+
+.image-grain::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(
+      120deg,
+      rgb(255 255 255 / 4%),
+      transparent 45%
+    );
+  mix-blend-mode: soft-light;
+}
+
+@media (hover: none) {
+  .service-card-touch-image {
+    opacity: 0.18;
+  }
+}
+
+.portfolio-swiper {
+  overflow: visible;
+}
+
+.portfolio-swiper .swiper-slide {
+  height: auto;
+}
+
+.portfolio-button-prev.swiper-button-disabled,
+.portfolio-button-next.swiper-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+@media (max-width: 639px) {
+  .portfolio-swiper {
+    padding-right: 1rem;
+  }
+}
+
+.testimonial-swiper {
+  overflow: hidden;
+}
+
+.testimonial-swiper .swiper-slide {
+  height: auto;
+}
+
+.testimonial-swiper .swiper-slide > * {
+  height: 100%;
+}
+
+.testimonial-button-prev.swiper-button-disabled,
+.testimonial-button-next.swiper-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
 }
