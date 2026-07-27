@@ -47,14 +47,14 @@ export const footerServices = [
 export const socialLinks = [
   {
     label: "Facebook",
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/chathuweddingplanners/",
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/",
+    href: "https://www.instagram.com/chathu_wedding_planners/",
   },
   {
     label: "TikTok",
-    href: "https://www.tiktok.com/",
+    href: "https://www.tiktok.com/@chathu_wedding_planners",
   },
 ];

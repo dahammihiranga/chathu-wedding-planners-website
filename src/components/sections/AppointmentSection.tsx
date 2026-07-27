@@ -16,8 +16,8 @@ import Container from "@/components/ui/Container";
 const contactDetails = [
   {
     label: "Phone",
-    value: "+94 76 424 7367",
-    href: "tel:+94764247367",
+    value: "+94 76 260 6777",
+    href: "tel:+94762606777",
     icon: Phone,
   },
   {

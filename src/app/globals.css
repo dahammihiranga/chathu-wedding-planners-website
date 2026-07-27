@@ -62,7 +62,7 @@ img {
 }
 
 .container-custom {
-  width: min(100% - 2rem, 1280px);
+  width: min(100% - 2rem, 1290px);
   margin-inline: auto;
 }
 
@@ -72,7 +72,7 @@ img {
 
 @media (min-width: 768px) {
   .container-custom {
-    width: min(100% - 4rem, 1280px);
+    width: min(100% - 4rem, 1370px);
   }
 
   .section-spacing {

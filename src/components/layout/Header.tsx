@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 import Container from "@/components/ui/Container";
 import { navigationItems } from "@/data/navigation";
+import Image from "next/image";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

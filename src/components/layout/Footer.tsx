@@ -1,25 +1,12 @@
 "use client";
 
-import {
-  ArrowUp,
-  Heart,
-  Mail,
-  MapPin,
-  Phone,
-} from "lucide-react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTiktok,
-} from "react-icons/fa";
+import { ArrowUp, Heart, Mail, MapPin, Phone } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { motion } from "motion/react";
 
 import Container from "@/components/ui/Container";
-import {
-  footerNavigation,
-  footerServices,
-  socialLinks,
-} from "@/data/footer";
+import { footerNavigation, footerServices, socialLinks } from "@/data/footer";
+import Image from "next/image";
 
 const socialIcons = {
   Facebook: FaFacebookF,
@@ -60,7 +47,7 @@ export default function Footer() {
       />
 
       <Container className="relative z-10">
-        <div className="grid gap-12 border-b border-white/10 py-20 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.9fr_1fr] lg:gap-14 lg:py-24">
+        <div className="grid gap-12 border-b border-white/10 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.9fr_1fr] lg:gap-14 lg:py-24">
           <motion.div
             initial={{
               opacity: 0,
@@ -77,31 +64,26 @@ export default function Footer() {
               duration: 0.7,
             }}
           >
-            <a
-              href="#home"
-              className="inline-block"
-            >
-              <p className="font-serif text-4xl font-medium text-white sm:text-5xl">
-                Chathu
-              </p>
-
-              <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.34em] text-[#d6bba7]">
-                Wedding Planners
-              </p>
+            <a href="#home">
+              <Image
+                src="/images/logo/logo.png"
+                alt="Chathu Wedding Planners"
+                width={320}
+                height={110}
+                priority
+                className="h-24 w-auto object-contain lg:h-28"
+              />
             </a>
 
-            <p className="mt-7 max-w-md text-sm leading-7 text-white/55">
-              Thoughtful wedding planning, professional
-              coordination and beautiful celebrations
-              created with genuine care.
+            <p className="mt-4 max-w-md text-sm leading-7 text-white/55">
+              Thoughtful wedding planning, professional coordination and
+              beautiful celebrations created with genuine care.
             </p>
 
             <div className="mt-8 flex gap-3">
               {socialLinks.map((social) => {
                 const Icon =
-                  socialIcons[
-                    social.label as keyof typeof socialIcons
-                  ];
+                  socialIcons[social.label as keyof typeof socialIcons];
 
                 return (
                   <a
@@ -220,10 +202,7 @@ export default function Footer() {
                 className="group flex items-start gap-4"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 text-[#d6bba7] transition-all group-hover:border-[#a87868] group-hover:bg-[#a87868] group-hover:text-white">
-                  <Phone
-                    size={16}
-                    strokeWidth={1.5}
-                  />
+                  <Phone size={16} strokeWidth={1.5} />
                 </span>
 
                 <div>
@@ -232,7 +211,7 @@ export default function Footer() {
                   </p>
 
                   <p className="mt-1 text-sm text-white/65 transition-colors group-hover:text-white">
-                    +94 77 000 0000
+                    +94 76 260 6777
                   </p>
                 </div>
               </a>
@@ -242,10 +221,7 @@ export default function Footer() {
                 className="group flex items-start gap-4"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 text-[#d6bba7] transition-all group-hover:border-[#a87868] group-hover:bg-[#a87868] group-hover:text-white">
-                  <Mail
-                    size={16}
-                    strokeWidth={1.5}
-                  />
+                  <Mail size={16} strokeWidth={1.5} />
                 </span>
 
                 <div>
@@ -254,17 +230,14 @@ export default function Footer() {
                   </p>
 
                   <p className="mt-1 break-all text-sm text-white/65 transition-colors group-hover:text-white">
-                    hello@chathuweddingplanners.lk
+                    chathuweddingplanners@gmail.com
                   </p>
                 </div>
               </a>
 
               <div className="flex items-start gap-4">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 text-[#d6bba7]">
-                  <MapPin
-                    size={16}
-                    strokeWidth={1.5}
-                  />
+                  <MapPin size={16} strokeWidth={1.5} />
                 </span>
 
                 <div>
@@ -272,9 +245,7 @@ export default function Footer() {
                     Location
                   </p>
 
-                  <p className="mt-1 text-sm text-white/65">
-                    Sri Lanka
-                  </p>
+                  <p className="mt-1 text-sm text-white/65">Colombo, Sri Lanka</p>
                 </div>
               </div>
             </div>
@@ -283,18 +254,13 @@ export default function Footer() {
 
         <div className="flex flex-col gap-5 py-7 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <p className="text-xs leading-6 text-white/40">
-            © {currentYear} Chathu Wedding Planners.
-            All rights reserved.
+            © {currentYear} Chathu Wedding Planners. All rights reserved.
           </p>
 
           <div className="flex items-center justify-center gap-2 text-xs text-white/40">
             <span>Planned and created with</span>
 
-            <Heart
-              size={13}
-              fill="currentColor"
-              className="text-[#a87868]"
-            />
+            <Heart size={13} fill="currentColor" className="text-[#a87868]" />
 
             <span>in Sri Lanka</span>
           </div>

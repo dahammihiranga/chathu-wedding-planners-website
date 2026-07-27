@@ -86,7 +86,7 @@ export default function StatisticsSection() {
               id="statistics-heading"
               className="max-w-2xl font-serif text-5xl font-medium leading-[0.98] text-white sm:text-6xl lg:text-7xl"
             >
-              Calm Planning.
+              Stress Free Planning.
               <span className="mt-2 block italic text-[#d6bba7]">
                 Beautiful Celebrations.
               </span>

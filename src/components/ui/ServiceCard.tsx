@@ -37,7 +37,7 @@ export default function ServiceCard({
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group relative min-h-[520px] overflow-hidden border border-[#e9ddd7] bg-[#fffdfb]"
+      className="group relative min-h-[520px] overflow-hidden rounded-lg border-2 border-[#cdbeb7] bg-[#fffdfb] md:border"
     >
       <div className="absolute inset-0">
         <Image
