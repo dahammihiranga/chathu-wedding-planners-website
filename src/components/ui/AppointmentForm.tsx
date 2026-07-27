@@ -141,69 +141,61 @@ export default function AppointmentForm() {
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>,
+) => {
+  event.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+  if (!validateForm()) {
+    return;
+  }
 
-    const formEndpoint =
-      process.env.NEXT_PUBLIC_APPOINTMENT_FORM_ENDPOINT;
+  try {
+    setStatus("submitting");
+    setStatusMessage("");
 
-    if (!formEndpoint) {
-      setStatus("error");
-      setStatusMessage(
-        "The appointment form is not connected yet. Please add the form endpoint in your environment settings.",
-      );
+    const response = await fetch("/api/appointment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(values),
+    });
 
-      return;
-    }
+    const result = (await response.json()) as {
+      message?: string;
+    };
 
-    try {
-      setStatus("submitting");
-      setStatusMessage("");
-
-      const response = await fetch(formEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          ...values,
-          subject: `New Wedding Inquiry Request — ${values.coupleName}`,
-          submittedFrom:
-            "Chathu Wedding Planners Website",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
+    if (!response.ok) {
+      throw new Error(
+        result.message ??
           "The appointment request could not be submitted.",
-        );
-      }
-
-      setStatus("success");
-      setStatusMessage(
-        "Thank you! Your appointment request has been sent successfully. Our team will contact you soon.",
-      );
-
-      setValues(initialValues);
-      setErrors({});
-    } catch (error) {
-      console.error(
-        "Appointment submission failed:",
-        error,
-      );
-
-      setStatus("error");
-      setStatusMessage(
-        "We could not send your request right now. Please try again or contact us directly.",
       );
     }
-  };
+
+    setStatus("success");
+    setStatusMessage(
+      result.message ??
+        "Thank you! Your appointment request has been sent successfully. Our team will contact you soon.",
+    );
+
+    setValues(initialValues);
+    setErrors({});
+  } catch (error) {
+    console.error(
+      "Appointment submission failed:",
+      error,
+    );
+
+    setStatus("error");
+
+    setStatusMessage(
+      error instanceof Error
+        ? error.message
+        : "We could not send your request right now. Please try again or contact us directly.",
+    );
+  }
+};
 
   return (
     <form
