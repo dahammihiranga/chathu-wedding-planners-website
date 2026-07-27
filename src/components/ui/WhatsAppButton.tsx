@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { FaWhatsapp } from "react-icons/fa";
 
-const whatsappNumber = "94764247367";
+const whatsappNumber = "94762606777";
 
 const whatsappMessage =
   "Hello Chathu Wedding Planners, I would like to know more about your wedding planning services.";

@@ -18,7 +18,7 @@ export type HeroSlide = {
 export const heroSlides: HeroSlide[] = [
   {
     id: 1,
-    image: "/images/hero/hero-1.jpg",
+    image: "/images/hero/hero-1.png",
     eyebrow: "Chathu Wedding Planners",
     title: "Your Dream Wedding,",
     highlightedTitle: "Perfectly Planned",
@@ -35,7 +35,7 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: 2,
-    image: "/images/hero/hero-2.jpg",
+    image: "/images/hero/hero-2.png",
     eyebrow: "Elegant Wedding Experiences",
     title: "Every Beautiful Moment,",
     highlightedTitle: "Thoughtfully Created",
@@ -52,7 +52,7 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: 3,
-    image: "/images/hero/hero-3.jpg",
+    image: "/images/hero/hero-3.png",
     eyebrow: "Celebrate Without Stress",
     title: "You Enjoy the Love,",
     highlightedTitle: "We Handle the Details",

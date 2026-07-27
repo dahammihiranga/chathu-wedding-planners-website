@@ -57,7 +57,7 @@ export default function Header() {
             aria-label="Chathu Wedding Planners home"
           >
             <span
-              className={`font-serif text-2xl font-semibold leading-none transition-colors duration-300 md:text-3xl ${
+              className={`font-anelyas text-2xl font-semibold leading-none transition-colors duration-300 md:text-3xl ${
                 isScrolled || isMenuOpen
                   ? "text-[#2f2927]"
                   : "text-white"
