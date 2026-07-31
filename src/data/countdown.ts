@@ -1,10 +1,10 @@
 export const featuredWedding = {
-  coupleNames: "Deshan & Madushani",
+  coupleNames: "Anuradha & Gayan",
 
   // Format: YYYY-MM-DDTHH:mm:ss+05:30
-  date: "2026-07-30T09:00:00+05:30",
+  date: "2026-08-06T09:00:00+05:30",
 
-  displayDate: "30 July 2026",
-  venue: "New Nadeesha Hotel Baduraliya",
+  displayDate: "06 August 2026",
+  venue: "Pabavi Regency - Balummahara",
   label: "Our Next Beautiful Celebration",
 };
