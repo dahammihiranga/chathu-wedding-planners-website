@@ -198,7 +198,7 @@ export default function Footer() {
 
             <div className="mt-7 space-y-5">
               <a
-                href="tel:+94770000000"
+                href="tel:+94762606777"
                 className="group flex items-start gap-4"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 text-[#d6bba7] transition-all group-hover:border-[#a87868] group-hover:bg-[#a87868] group-hover:text-white">
