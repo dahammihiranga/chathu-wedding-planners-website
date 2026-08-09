@@ -71,7 +71,10 @@ export default function TestimonialsSection() {
             >
               Kind Words from
               <span className="mt-2 block italic text-[#a87868]">
-                Our Beautiful Couples
+                Our Beautiful Couples ,
+              </span>
+              <span className="mt-2 block text-[#a87868]">
+                Couple's families & Our Vendors
               </span>
             </h2>
           </motion.div>

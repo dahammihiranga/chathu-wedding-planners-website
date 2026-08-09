@@ -27,7 +27,7 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
 
         <div className="absolute bottom-0 left-0 right-0 p-7 text-white sm:p-9">
           <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-white/65">
-            {testimonial.weddingType}
+            {/* {testimonial.weddingType} */}
           </p>
 
           <h3 className="mt-2 font-serif text-4xl font-medium sm:text-5xl">
@@ -81,7 +81,7 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
             ))}
           </div>
 
-          <blockquote className="mt-8 max-w-2xl font-serif text-3xl leading-[1.35] text-[#2f2927] sm:text-4xl lg:text-[2.65rem]">
+          <blockquote className="mt-8 max-w-2xl font-serif text-sm leading-[1.35] text-[#2f2927] sm:text-sm lg:text-[1.65rem]">
             “{testimonial.quote}”
           </blockquote>
 
