@@ -47,7 +47,7 @@ export default function PortfolioCard({
 
       <div className="absolute left-5 top-5">
         <span className="inline-flex border border-white/25 bg-black/10 px-4 py-2 text-[8px] font-semibold uppercase tracking-[0.25em] text-white backdrop-blur-md sm:text-[9px]">
-          {item.category}
+          {/* {item.category} */}
         </span>
       </div>
 
