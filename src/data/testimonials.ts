@@ -26,7 +26,7 @@ export const testimonials: Testimonial[] = [
     coupleNames: "Hashini & Udith",
     // weddingType: "Church & Poruwa Wedding",
     location: "Minuwangoda",
-    image: "/images/testimonials/couple-2.JPG",
+    image: "/images/testimonials/couple-2.jpg",
     rating: 5,
     source: "Facebook Recommendation",
     quote:

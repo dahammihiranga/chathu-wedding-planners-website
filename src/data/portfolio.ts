@@ -54,7 +54,7 @@ export const portfolioItems: PortfolioItem[] = [
     // category: "Church Ceremony",
     venue: "Hotel Kashyapa, Awissawella",
     date: "23 April 2026",
-    image: "/images/portfolio/wedding-6.JPG",
+    image: "/images/portfolio/wedding-6.jpg",
   },
   {
     id: 7,
