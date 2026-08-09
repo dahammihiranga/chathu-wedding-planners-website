@@ -9,6 +9,7 @@ import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import AppointmentSection from "@/components/sections/AppointmentSection";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import ChatBot from "@/components/chatbot/ChatBot";
 
 export default function HomePage() {
   return (
@@ -28,6 +29,7 @@ export default function HomePage() {
       
       <Footer />
       <WhatsAppButton />
+      <ChatBot />
     </>
   );
 }
