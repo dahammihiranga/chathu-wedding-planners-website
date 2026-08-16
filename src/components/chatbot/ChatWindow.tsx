@@ -24,6 +24,19 @@ const emptyLeadData: ChatLeadData = {
   email: "",
 };
 
+const CHAT_STORAGE_KEY = "chathu-concierge-messages";
+
+const LEAD_STORAGE_KEY = "chathu-concierge-lead";
+
+const LEAD_SUBMITTED_STORAGE_KEY = "chathu-concierge-lead-submitted";
+
+const createWelcomeMessage = (): ChatMessage => ({
+  id: crypto.randomUUID(),
+  role: "assistant",
+  content:
+    "Welcome! 💍 I'm Chathu's AI Assistant. I'd be delighted to help with your wedding plans. What would you like to know?",
+});
+
 export default function ChatWindow({ isOpen }: Props) {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
@@ -35,25 +48,88 @@ export default function ChatWindow({ isOpen }: Props) {
   const [leadSending, setLeadSending] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: crypto.randomUUID(),
-      role: "assistant",
-      content:
-        "Welcome! 💍 I'm Chathu's AI Assistant. I'd be delighted to help with your wedding plans. What would you like to know?",
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [storageLoaded, setStorageLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedMessages = sessionStorage.getItem(CHAT_STORAGE_KEY);
+
+      const storedLeadData = sessionStorage.getItem(LEAD_STORAGE_KEY);
+
+      const storedLeadSubmitted = sessionStorage.getItem(
+        LEAD_SUBMITTED_STORAGE_KEY,
+      );
+
+      if (storedMessages) {
+        const parsedMessages = JSON.parse(storedMessages) as ChatMessage[];
+
+        if (Array.isArray(parsedMessages) && parsedMessages.length > 0) {
+          setMessages(parsedMessages);
+        } else {
+          setMessages([createWelcomeMessage()]);
+        }
+      } else {
+        setMessages([createWelcomeMessage()]);
+      }
+
+      if (storedLeadData) {
+        const parsedLeadData = JSON.parse(storedLeadData) as ChatLeadData;
+
+        setLeadData({
+          ...emptyLeadData,
+          ...parsedLeadData,
+        });
+      }
+
+      if (storedLeadSubmitted === "true") {
+        setLeadSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Failed to restore chatbot session:", error);
+
+      setMessages([createWelcomeMessage()]);
+      setLeadData(emptyLeadData);
+      setLeadSubmitted(false);
+    } finally {
+      setStorageLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!storageLoaded || messages.length === 0) {
+      return;
+    }
+
+    sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+  }, [messages, storageLoaded]);
+
+  useEffect(() => {
+    if (!storageLoaded) {
+      return;
+    }
+
+    sessionStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify(leadData));
+  }, [leadData, storageLoaded]);
+
+  useEffect(() => {
+    if (!storageLoaded) {
+      return;
+    }
+
+    sessionStorage.setItem(LEAD_SUBMITTED_STORAGE_KEY, String(leadSubmitted));
+  }, [leadSubmitted, storageLoaded]);
 
   useEffect(() => {
     const container = messagesContainerRef.current;
 
-    if (!container) return;
+    if (!container || !storageLoaded) return;
 
     container.scrollTo({
       top: container.scrollHeight,
       behavior: "smooth",
     });
-  }, [messages, loading]);
+  }, [messages, loading, storageLoaded]);
 
   const sendMessage = async (customMessage?: string) => {
     const messageToSend = customMessage ?? input;
@@ -427,134 +503,132 @@ sm:py-2.5
               ))}
 
               {leadData.coupleName &&
-  leadData.contactNumber &&
-  !leadSubmitted && (
-    <div className="rounded-2xl border border-[#ead8d0] bg-[#fff8f4] p-4">
-      <p className="text-sm font-semibold text-[#2f2927]">
-        Would you like Chathu to personally contact you?
-      </p>
+                leadData.contactNumber &&
+                !leadSubmitted && (
+                  <div className="rounded-2xl border border-[#ead8d0] bg-[#fff8f4] p-4">
+                    <p className="text-sm font-semibold text-[#2f2927]">
+                      Would you like Chathu to personally contact you?
+                    </p>
 
-      <p className="mt-1 text-xs leading-5 text-[#766d69]">
-        Please review the wedding details you've shared before
-        sending them to Chathu.
-      </p>
+                    <p className="mt-1 text-xs leading-5 text-[#766d69]">
+                      Please review the wedding details you've shared before
+                      sending them to Chathu.
+                    </p>
 
-      {/* Wedding details summary */}
+                    {/* Wedding details summary */}
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-[#eadfd9] bg-white">
-        <div className="border-b border-[#eee5e0] px-3 py-2.5">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a87868]">
-            Your Wedding Details 💍
-          </p>
-        </div>
+                    <div className="mt-4 overflow-hidden rounded-xl border border-[#eadfd9] bg-white">
+                      <div className="border-b border-[#eee5e0] px-3 py-2.5">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a87868]">
+                          Your Wedding Details 💍
+                        </p>
+                      </div>
 
-        <div className="divide-y divide-[#f0e8e4] px-3">
+                      <div className="divide-y divide-[#f0e8e4] px-3">
+                        <div className="flex items-start justify-between gap-4 py-2.5">
+                          <span className="shrink-0 text-xs text-[#8d817b]">
+                            Couple
+                          </span>
 
-          <div className="flex items-start justify-between gap-4 py-2.5">
-            <span className="shrink-0 text-xs text-[#8d817b]">
-              Couple
-            </span>
+                          <span className="text-right text-xs font-medium text-[#2f2927]">
+                            {leadData.coupleName}
+                          </span>
+                        </div>
 
-            <span className="text-right text-xs font-medium text-[#2f2927]">
-              {leadData.coupleName}
-            </span>
-          </div>
+                        {leadData.weddingDate && (
+                          <div className="flex items-start justify-between gap-4 py-2.5">
+                            <span className="shrink-0 text-xs text-[#8d817b]">
+                              Wedding Date
+                            </span>
 
-          {leadData.weddingDate && (
-            <div className="flex items-start justify-between gap-4 py-2.5">
-              <span className="shrink-0 text-xs text-[#8d817b]">
-                Wedding Date
-              </span>
+                            <span className="text-right text-xs font-medium text-[#2f2927]">
+                              {leadData.weddingDate}
+                            </span>
+                          </div>
+                        )}
 
-              <span className="text-right text-xs font-medium text-[#2f2927]">
-                {leadData.weddingDate}
-              </span>
-            </div>
-          )}
+                        {leadData.venue && (
+                          <div className="flex items-start justify-between gap-4 py-2.5">
+                            <span className="shrink-0 text-xs text-[#8d817b]">
+                              Venue
+                            </span>
 
-          {leadData.venue && (
-            <div className="flex items-start justify-between gap-4 py-2.5">
-              <span className="shrink-0 text-xs text-[#8d817b]">
-                Venue
-              </span>
+                            <span className="text-right text-xs font-medium text-[#2f2927]">
+                              {leadData.venue}
+                            </span>
+                          </div>
+                        )}
 
-              <span className="text-right text-xs font-medium text-[#2f2927]">
-                {leadData.venue}
-              </span>
-            </div>
-          )}
+                        {leadData.guestCount && (
+                          <div className="flex items-start justify-between gap-4 py-2.5">
+                            <span className="shrink-0 text-xs text-[#8d817b]">
+                              Guests
+                            </span>
 
-          {leadData.guestCount && (
-            <div className="flex items-start justify-between gap-4 py-2.5">
-              <span className="shrink-0 text-xs text-[#8d817b]">
-                Guests
-              </span>
+                            <span className="text-right text-xs font-medium text-[#2f2927]">
+                              {leadData.guestCount}
+                            </span>
+                          </div>
+                        )}
 
-              <span className="text-right text-xs font-medium text-[#2f2927]">
-                {leadData.guestCount}
-              </span>
-            </div>
-          )}
+                        {leadData.weddingType && (
+                          <div className="flex items-start justify-between gap-4 py-2.5">
+                            <span className="shrink-0 text-xs text-[#8d817b]">
+                              Wedding Type
+                            </span>
 
-          {leadData.weddingType && (
-            <div className="flex items-start justify-between gap-4 py-2.5">
-              <span className="shrink-0 text-xs text-[#8d817b]">
-                Wedding Type
-              </span>
+                            <span className="text-right text-xs font-medium text-[#2f2927]">
+                              {leadData.weddingType}
+                            </span>
+                          </div>
+                        )}
 
-              <span className="text-right text-xs font-medium text-[#2f2927]">
-                {leadData.weddingType}
-              </span>
-            </div>
-          )}
+                        {leadData.service && (
+                          <div className="flex items-start justify-between gap-4 py-2.5">
+                            <span className="shrink-0 text-xs text-[#8d817b]">
+                              Service
+                            </span>
 
-          {leadData.service && (
-            <div className="flex items-start justify-between gap-4 py-2.5">
-              <span className="shrink-0 text-xs text-[#8d817b]">
-                Service
-              </span>
+                            <span className="text-right text-xs font-medium text-[#2f2927]">
+                              {leadData.service}
+                            </span>
+                          </div>
+                        )}
 
-              <span className="text-right text-xs font-medium text-[#2f2927]">
-                {leadData.service}
-              </span>
-            </div>
-          )}
+                        <div className="flex items-start justify-between gap-4 py-2.5">
+                          <span className="shrink-0 text-xs text-[#8d817b]">
+                            Contact
+                          </span>
 
-          <div className="flex items-start justify-between gap-4 py-2.5">
-            <span className="shrink-0 text-xs text-[#8d817b]">
-              Contact
-            </span>
+                          <span className="text-right text-xs font-medium text-[#2f2927]">
+                            {leadData.contactNumber}
+                          </span>
+                        </div>
 
-            <span className="text-right text-xs font-medium text-[#2f2927]">
-              {leadData.contactNumber}
-            </span>
-          </div>
+                        {leadData.email && (
+                          <div className="flex items-start justify-between gap-4 py-2.5">
+                            <span className="shrink-0 text-xs text-[#8d817b]">
+                              Email
+                            </span>
 
-          {leadData.email && (
-            <div className="flex items-start justify-between gap-4 py-2.5">
-              <span className="shrink-0 text-xs text-[#8d817b]">
-                Email
-              </span>
+                            <span className="break-all text-right text-xs font-medium text-[#2f2927]">
+                              {leadData.email}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-              <span className="break-all text-right text-xs font-medium text-[#2f2927]">
-                {leadData.email}
-              </span>
-            </div>
-          )}
+                    <p className="mt-3 text-[11px] leading-5 text-[#8d817b]">
+                      By confirming, these details will be shared with Chathu so
+                      she can personally contact you regarding your wedding.
+                    </p>
 
-        </div>
-      </div>
-
-      <p className="mt-3 text-[11px] leading-5 text-[#8d817b]">
-        By confirming, these details will be shared with Chathu so
-        she can personally contact you regarding your wedding.
-      </p>
-
-      <button
-        type="button"
-        onClick={sendLeadToChathu}
-        disabled={leadSending}
-        className="
+                    <button
+                      type="button"
+                      onClick={sendLeadToChathu}
+                      disabled={leadSending}
+                      className="
           mt-3
           w-full
           rounded-xl
@@ -569,16 +643,13 @@ sm:py-2.5
           disabled:cursor-not-allowed
           disabled:opacity-60
         "
-      >
-        {leadSending
-          ? "Sending..."
-          : "Confirm & Send to Chathu"}
-      </button>
-    </div>
-  )}
+                    >
+                      {leadSending ? "Sending..." : "Confirm & Send to Chathu"}
+                    </button>
+                  </div>
+                )}
 
               {loading && <TypingIndicator />}
-
             </div>
 
             {/* Input */}
