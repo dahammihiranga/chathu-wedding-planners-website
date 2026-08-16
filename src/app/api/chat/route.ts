@@ -1,5 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
+import { checkBotId } from "botid/server";
+
 import { buildSystemPrompt } from "@/lib/chatbot/systemPrompt";
 
 const ai = new GoogleGenAI({
@@ -134,6 +136,19 @@ async function generateWithRetry(
 
 export async function POST(req: Request) {
   try {
+    const botResult = await checkBotId();
+
+    if (botResult.isBot) {
+      return NextResponse.json(
+        {
+          reply: "This request could not be verified.",
+        },
+        {
+          status: 403,
+        },
+      );
+    }
+
     const systemPrompt = buildSystemPrompt();
     const leadExtractionInstructions = `
 In addition to your normal customer-facing response, continuously extract wedding lead details from the FULL conversation.

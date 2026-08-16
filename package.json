@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/genai": "^2.17.1",
+    "botid": "^1.5.11",
     "clsx": "^2.1.1",
     "lucide-react": "^1.26.0",
     "motion": "^12.42.2",
