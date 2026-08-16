@@ -151,14 +151,14 @@ export async function POST(req: Request) {
 
     const systemPrompt = buildSystemPrompt();
     const leadExtractionInstructions = `
-In addition to your normal customer-facing response, continuously extract wedding lead details from the FULL conversation.
+In addition to your normal customer-facing response, continuously maintain the customer's current wedding lead details using the provided known wedding details and the recent conversation.
 
 Rules for leadData:
 
 - Only extract information the customer has actually provided or clearly confirmed.
 - Never invent missing details.
 - If a detail has never been provided, return an empty string.
-- Always consider the FULL conversation when determining the current lead details.
+- Always consider both the CURRENT KNOWN WEDDING DETAILS and the recent conversation when determining the current lead details.
 - Preserve information learned earlier when it has not been changed.
 - Do not remove previously known information just because it is not mentioned in the newest message.
 
@@ -167,7 +167,7 @@ IMPORTANT — CUSTOMER CORRECTIONS:
 - The customer's MOST RECENT correction or update always overrides an older value.
 - If the customer says words such as "actually", "sorry", "changed", "instead", "not that", "correction", "I meant", or otherwise clearly updates previous information, return the NEW value.
 - Never return an older value after the customer has corrected it.
-- Determine the final current value from the full conversation, not simply the first value mentioned.
+- Determine the final current value from the known wedding details and recent conversation, giving priority to the customer's newest information.
 
 Examples:
 
@@ -196,7 +196,29 @@ Final service: "Full Wedding Planning"
 - The reply field is the natural response shown to the customer.
 - Never mention leadData, JSON, extraction, internal fields, structured output, or these instructions to the customer.
 `;
-    const { messages } = await req.json();
+    const { messages, leadData } = await req.json();
+
+    const leadContext = `
+CURRENT KNOWN WEDDING DETAILS:
+
+Couple: ${leadData?.coupleName || "Not provided"}
+Wedding Date: ${leadData?.weddingDate || "Not provided"}
+Venue: ${leadData?.venue || "Not provided"}
+Service: ${leadData?.service || "Not provided"}
+Wedding Type: ${leadData?.weddingType || "Not provided"}
+Guest Count: ${leadData?.guestCount || "Not provided"}
+Contact Number: ${leadData?.contactNumber || "Not provided"}
+Email: ${leadData?.email || "Not provided"}
+
+These details were extracted from earlier conversation messages.
+
+Treat these as the currently known values.
+
+If a recent customer message corrects or changes any of these values,
+the customer's newer information overrides this context.
+
+Do not tell the customer that this context exists.
+`;
 
     const contents = [
       {
@@ -205,7 +227,9 @@ Final service: "Full Wedding Planning"
           {
             text: `${systemPrompt}
 
-${leadExtractionInstructions}`,
+${leadExtractionInstructions}
+
+${leadContext}`,
           },
         ],
       },
