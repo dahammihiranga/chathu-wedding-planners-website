@@ -306,6 +306,55 @@ export default function ChatWindow({ isOpen }: Props) {
     setLeadSending(false);
     setInput("");
   };
+  const leadDetails = [
+  {
+    key: "coupleName",
+    label: "Couple Names",
+    value: leadData.coupleName,
+  },
+  {
+    key: "weddingDate",
+    label: "Wedding Date",
+    value: leadData.weddingDate,
+  },
+  {
+    key: "venue",
+    label: "Venue",
+    value: leadData.venue,
+  },
+  {
+    key: "service",
+    label: "Service",
+    value: leadData.service,
+  },
+  {
+    key: "weddingType",
+    label: "Wedding Type",
+    value: leadData.weddingType,
+  },
+  {
+    key: "guestCount",
+    label: "Guest Count",
+    value: leadData.guestCount,
+  },
+  {
+    key: "contactNumber",
+    label: "Contact Number",
+    value: leadData.contactNumber,
+  },
+];
+
+const completedLeadDetails = leadDetails.filter(
+  (detail) => detail.value.trim() !== "",
+);
+
+const missingLeadDetails = leadDetails.filter(
+  (detail) => detail.value.trim() === "",
+);
+
+const leadCompleteness = Math.round(
+  (completedLeadDetails.length / leadDetails.length) * 100,
+);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -562,6 +611,27 @@ sm:py-2.5
                       sending them to Chathu.
                     </p>
 
+                    <div className="mt-4">
+  <div className="mb-1.5 flex items-center justify-between">
+    <span className="text-[11px] font-medium text-[#766d69]">
+      Wedding details
+    </span>
+
+    <span className="text-[11px] font-semibold text-[#a87868]">
+      {leadCompleteness}% complete
+    </span>
+  </div>
+
+  <div className="h-1.5 overflow-hidden rounded-full bg-[#eadfd9]">
+    <div
+      className="h-full rounded-full bg-[#a87868] transition-all duration-500"
+      style={{
+        width: `${leadCompleteness}%`,
+      }}
+    />
+  </div>
+</div>
+
                     {/* Wedding details summary */}
 
                     <div className="mt-4 overflow-hidden rounded-xl border border-[#eadfd9] bg-white">
@@ -665,6 +735,37 @@ sm:py-2.5
                         )}
                       </div>
                     </div>
+
+                    {missingLeadDetails.length > 0 && (
+  <div className="mt-3 rounded-xl border border-[#eadfd9] bg-white px-3 py-3">
+    <p className="text-[11px] font-semibold text-[#766d69]">
+      Still not provided
+    </p>
+
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {missingLeadDetails.map((detail) => (
+        <span
+          key={detail.key}
+          className="
+            rounded-full
+            bg-[#f6efeb]
+            px-2.5
+            py-1
+            text-[10px]
+            font-medium
+            text-[#8d817b]
+          "
+        >
+          {detail.label}
+        </span>
+      ))}
+    </div>
+
+    <p className="mt-2 text-[10px] leading-4 text-[#9a8e88]">
+      That's okay — you can still send your details to Chathu.
+    </p>
+  </div>
+)}
 
                     <p className="mt-3 text-[11px] leading-5 text-[#8d817b]">
                       By confirming, these details will be shared with Chathu so
