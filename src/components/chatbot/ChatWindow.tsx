@@ -102,25 +102,43 @@ export default function ChatWindow({ isOpen }: Props) {
 
       setMessages((current) => [...current, assistantMessage]);
 
-      if (data.leadData) {
-        setLeadData((current) => ({
-          coupleName: data.leadData.coupleName || current.coupleName,
+      const extractedLeadData = data.leadData;
 
-          weddingDate: data.leadData.weddingDate || current.weddingDate,
+if (extractedLeadData) {
+  setLeadData((current) => ({
+    coupleName:
+      extractedLeadData.coupleName ||
+      current.coupleName,
 
-          venue: data.leadData.venue || current.venue,
+    weddingDate:
+      extractedLeadData.weddingDate ||
+      current.weddingDate,
 
-          service: data.leadData.service || current.service,
+    venue:
+      extractedLeadData.venue ||
+      current.venue,
 
-          weddingType: data.leadData.weddingType || current.weddingType,
+    service:
+      extractedLeadData.service ||
+      current.service,
 
-          guestCount: data.leadData.guestCount || current.guestCount,
+    weddingType:
+      extractedLeadData.weddingType ||
+      current.weddingType,
 
-          contactNumber: data.leadData.contactNumber || current.contactNumber,
+    guestCount:
+      extractedLeadData.guestCount ||
+      current.guestCount,
 
-          email: data.leadData.email || current.email,
-        }));
-      }
+    contactNumber:
+      extractedLeadData.contactNumber ||
+      current.contactNumber,
+
+    email:
+      extractedLeadData.email ||
+      current.email,
+  }));
+}
     } catch (error) {
       console.error("Chat request failed:", error);
 
