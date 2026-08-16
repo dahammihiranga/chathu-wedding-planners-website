@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import ReactMarkdown from "react-markdown";
 
 import type { ChatMessage } from "@/types/chat";
 
@@ -8,19 +9,14 @@ type Props = {
   message: ChatMessage;
 };
 
-export default function MessageBubble({
-  message,
-}: Props) {
-  const isAssistant =
-    message.role === "assistant";
+export default function MessageBubble({ message }: Props) {
+  const isAssistant = message.role === "assistant";
 
   return (
     <div
       className={clsx(
         "flex w-full",
-        isAssistant
-          ? "justify-start"
-          : "justify-end",
+        isAssistant ? "justify-start" : "justify-end",
       )}
     >
       <div
@@ -32,7 +28,44 @@ export default function MessageBubble({
             : "bg-[#a87868] text-white",
         )}
       >
-        {message.content}
+        {isAssistant ? (
+          <ReactMarkdown
+            components={{
+              p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
+
+              strong: ({ children }) => (
+                <strong className="font-semibold text-[#2f2927]">
+                  {children}
+                </strong>
+              ),
+
+              ul: ({ children }) => (
+                <ul className="my-3 list-disc space-y-1 pl-5">{children}</ul>
+              ),
+
+              ol: ({ children }) => (
+                <ol className="my-3 list-decimal space-y-1 pl-5">{children}</ol>
+              ),
+
+              li: ({ children }) => <li className="pl-1">{children}</li>,
+
+              a: ({ href, children }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-medium text-[#a87868] underline underline-offset-2"
+                >
+                  {children}
+                </a>
+              ),
+            }}
+          >
+            {message.content}
+          </ReactMarkdown>
+        ) : (
+          message.content
+        )}
       </div>
     </div>
   );
