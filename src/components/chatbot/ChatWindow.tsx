@@ -6,11 +6,22 @@ import { useEffect, useRef, useState } from "react";
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
 
-import type { ChatMessage } from "@/types/chat";
+import type { ChatApiResponse, ChatLeadData, ChatMessage } from "@/types/chat";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+};
+
+const emptyLeadData: ChatLeadData = {
+  coupleName: "",
+  weddingDate: "",
+  venue: "",
+  service: "",
+  weddingType: "",
+  guestCount: "",
+  contactNumber: "",
+  email: "",
 };
 
 export default function ChatWindow({ isOpen }: Props) {
@@ -18,6 +29,8 @@ export default function ChatWindow({ isOpen }: Props) {
   const [input, setInput] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const [leadData, setLeadData] = useState<ChatLeadData>(emptyLeadData);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -38,6 +51,10 @@ export default function ChatWindow({ isOpen }: Props) {
       behavior: "smooth",
     });
   }, [messages, loading]);
+
+  useEffect(() => {
+    console.log("Chathu Concierge Lead Data:", leadData);
+  }, [leadData]);
 
   const sendMessage = async (customMessage?: string) => {
     const messageToSend = customMessage ?? input;
@@ -71,7 +88,11 @@ export default function ChatWindow({ isOpen }: Props) {
         }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as ChatApiResponse;
+
+      if (!response.ok) {
+        throw new Error(data.reply);
+      }
 
       const assistantMessage: ChatMessage = {
         id: crypto.randomUUID(),
@@ -80,6 +101,41 @@ export default function ChatWindow({ isOpen }: Props) {
       };
 
       setMessages((current) => [...current, assistantMessage]);
+
+      if (data.leadData) {
+        setLeadData((current) => ({
+          coupleName: data.leadData.coupleName || current.coupleName,
+
+          weddingDate: data.leadData.weddingDate || current.weddingDate,
+
+          venue: data.leadData.venue || current.venue,
+
+          service: data.leadData.service || current.service,
+
+          weddingType: data.leadData.weddingType || current.weddingType,
+
+          guestCount: data.leadData.guestCount || current.guestCount,
+
+          contactNumber: data.leadData.contactNumber || current.contactNumber,
+
+          email: data.leadData.email || current.email,
+        }));
+      }
+    } catch (error) {
+      console.error("Chat request failed:", error);
+
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Sorry, I couldn't respond right now. Please try again shortly.";
+
+      const assistantErrorMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: errorMessage,
+      };
+
+      setMessages((current) => [...current, assistantErrorMessage]);
     } finally {
       setLoading(false);
     }
