@@ -42,49 +42,49 @@ async function generateWithRetry(
                   coupleName: {
                     type: "string",
                     description:
-                      "Bride and groom names if the customer has provided them. Otherwise return an empty string.",
+                      "The couple's current names after considering any corrections. Include both names when both are known. Otherwise return an empty string.",
                   },
 
                   weddingDate: {
                     type: "string",
                     description:
-                      "Wedding date mentioned by the customer. Preserve the customer's wording if necessary. Otherwise empty string.",
+                      "The customer's current wedding date after considering any corrections or updates in the full conversation. Otherwise return an empty string.",
                   },
 
                   venue: {
                     type: "string",
                     description:
-                      "Hotel or wedding venue mentioned by the customer. Otherwise empty string.",
+                      "The customer's current wedding venue after considering any corrections or venue changes. Otherwise return an empty string.",
                   },
 
                   service: {
                     type: "string",
                     description:
-                      "Chathu Wedding Planners service the customer is interested in or has agreed is suitable. Otherwise empty string.",
+                      "The current Chathu Wedding Planners service the customer is interested in after considering any changes or corrections. Otherwise return an empty string.",
                   },
 
                   weddingType: {
                     type: "string",
                     description:
-                      "Wedding type such as Poruwa, Church, Hindu, Muslim or Reception Only. Otherwise empty string.",
+                      "The customer's current wedding type after considering any corrections or changes. Otherwise return an empty string.",
                   },
 
                   guestCount: {
                     type: "string",
                     description:
-                      "Expected guest count if provided. Otherwise empty string.",
+                      "The customer's latest expected guest count after considering any corrections or updates. Otherwise return an empty string.",
                   },
 
                   contactNumber: {
                     type: "string",
                     description:
-                      "Customer's contact or WhatsApp number if provided. Otherwise empty string.",
+                      "The customer's latest contact or WhatsApp number after considering any corrections. Otherwise return an empty string.",
                   },
 
                   email: {
                     type: "string",
                     description:
-                      "Customer's email address if provided. Otherwise empty string.",
+                      "The customer's latest email address after considering any corrections. Otherwise return an empty string.",
                   },
                 },
 
@@ -142,13 +142,44 @@ Rules for leadData:
 
 - Only extract information the customer has actually provided or clearly confirmed.
 - Never invent missing details.
-- If a detail has not been provided, return an empty string.
-- Preserve information learned earlier in the conversation.
+- If a detail has never been provided, return an empty string.
+- Always consider the FULL conversation when determining the current lead details.
+- Preserve information learned earlier when it has not been changed.
 - Do not remove previously known information just because it is not mentioned in the newest message.
+
+IMPORTANT — CUSTOMER CORRECTIONS:
+
+- The customer's MOST RECENT correction or update always overrides an older value.
+- If the customer says words such as "actually", "sorry", "changed", "instead", "not that", "correction", "I meant", or otherwise clearly updates previous information, return the NEW value.
+- Never return an older value after the customer has corrected it.
+- Determine the final current value from the full conversation, not simply the first value mentioned.
+
+Examples:
+
+Customer earlier: "Our wedding is 14 February 2027."
+Customer later: "Sorry, it's actually 21 February 2027."
+Final weddingDate: "21 February 2027"
+
+Customer earlier: "The venue is Shangri-La Colombo."
+Customer later: "We changed the venue to Cinnamon Grand."
+Final venue: "Cinnamon Grand"
+
+Customer earlier: "Around 250 guests."
+Customer later: "Actually make that around 300 guests."
+Final guestCount: "300"
+
+Customer earlier: "My number is 0771234567."
+Customer later: "Sorry, use 0719876543 instead."
+Final contactNumber: "0719876543"
+
+Customer earlier: "We want Wedding Day Coordination."
+Customer later: "Actually we're interested in Full Wedding Planning."
+Final service: "Full Wedding Planning"
+
 - Couple names should contain both names when both are known.
 - Contact number means the customer's phone or WhatsApp number.
-- The reply field is what the customer sees.
-- Never mention leadData, JSON, extraction, internal fields or structured output to the customer.
+- The reply field is the natural response shown to the customer.
+- Never mention leadData, JSON, extraction, internal fields, structured output, or these instructions to the customer.
 `;
     const { messages } = await req.json();
 
