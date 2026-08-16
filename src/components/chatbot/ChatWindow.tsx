@@ -55,10 +55,6 @@ export default function ChatWindow({ isOpen }: Props) {
     });
   }, [messages, loading]);
 
-  useEffect(() => {
-    console.log("Chathu Concierge Lead Data:", leadData);
-  }, [leadData]);
-
   const sendMessage = async (customMessage?: string) => {
     const messageToSend = customMessage ?? input;
 
@@ -431,23 +427,134 @@ sm:py-2.5
               ))}
 
               {leadData.coupleName &&
-                leadData.contactNumber &&
-                !leadSubmitted && (
-                  <div className="rounded-2xl border border-[#ead8d0] bg-[#fff8f4] p-4">
-                    <p className="text-sm font-medium text-[#2f2927]">
-                      Would you like Chathu to personally contact you?
-                    </p>
+  leadData.contactNumber &&
+  !leadSubmitted && (
+    <div className="rounded-2xl border border-[#ead8d0] bg-[#fff8f4] p-4">
+      <p className="text-sm font-semibold text-[#2f2927]">
+        Would you like Chathu to personally contact you?
+      </p>
 
-                    <p className="mt-1 text-xs leading-5 text-[#766d69]">
-                      I can securely send the wedding details you've shared to
-                      Chathu so she can contact you directly.
-                    </p>
+      <p className="mt-1 text-xs leading-5 text-[#766d69]">
+        Please review the wedding details you've shared before
+        sending them to Chathu.
+      </p>
 
-                    <button
-                      type="button"
-                      onClick={sendLeadToChathu}
-                      disabled={leadSending}
-                      className="
+      {/* Wedding details summary */}
+
+      <div className="mt-4 overflow-hidden rounded-xl border border-[#eadfd9] bg-white">
+        <div className="border-b border-[#eee5e0] px-3 py-2.5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#a87868]">
+            Your Wedding Details 💍
+          </p>
+        </div>
+
+        <div className="divide-y divide-[#f0e8e4] px-3">
+
+          <div className="flex items-start justify-between gap-4 py-2.5">
+            <span className="shrink-0 text-xs text-[#8d817b]">
+              Couple
+            </span>
+
+            <span className="text-right text-xs font-medium text-[#2f2927]">
+              {leadData.coupleName}
+            </span>
+          </div>
+
+          {leadData.weddingDate && (
+            <div className="flex items-start justify-between gap-4 py-2.5">
+              <span className="shrink-0 text-xs text-[#8d817b]">
+                Wedding Date
+              </span>
+
+              <span className="text-right text-xs font-medium text-[#2f2927]">
+                {leadData.weddingDate}
+              </span>
+            </div>
+          )}
+
+          {leadData.venue && (
+            <div className="flex items-start justify-between gap-4 py-2.5">
+              <span className="shrink-0 text-xs text-[#8d817b]">
+                Venue
+              </span>
+
+              <span className="text-right text-xs font-medium text-[#2f2927]">
+                {leadData.venue}
+              </span>
+            </div>
+          )}
+
+          {leadData.guestCount && (
+            <div className="flex items-start justify-between gap-4 py-2.5">
+              <span className="shrink-0 text-xs text-[#8d817b]">
+                Guests
+              </span>
+
+              <span className="text-right text-xs font-medium text-[#2f2927]">
+                {leadData.guestCount}
+              </span>
+            </div>
+          )}
+
+          {leadData.weddingType && (
+            <div className="flex items-start justify-between gap-4 py-2.5">
+              <span className="shrink-0 text-xs text-[#8d817b]">
+                Wedding Type
+              </span>
+
+              <span className="text-right text-xs font-medium text-[#2f2927]">
+                {leadData.weddingType}
+              </span>
+            </div>
+          )}
+
+          {leadData.service && (
+            <div className="flex items-start justify-between gap-4 py-2.5">
+              <span className="shrink-0 text-xs text-[#8d817b]">
+                Service
+              </span>
+
+              <span className="text-right text-xs font-medium text-[#2f2927]">
+                {leadData.service}
+              </span>
+            </div>
+          )}
+
+          <div className="flex items-start justify-between gap-4 py-2.5">
+            <span className="shrink-0 text-xs text-[#8d817b]">
+              Contact
+            </span>
+
+            <span className="text-right text-xs font-medium text-[#2f2927]">
+              {leadData.contactNumber}
+            </span>
+          </div>
+
+          {leadData.email && (
+            <div className="flex items-start justify-between gap-4 py-2.5">
+              <span className="shrink-0 text-xs text-[#8d817b]">
+                Email
+              </span>
+
+              <span className="break-all text-right text-xs font-medium text-[#2f2927]">
+                {leadData.email}
+              </span>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+      <p className="mt-3 text-[11px] leading-5 text-[#8d817b]">
+        By confirming, these details will be shared with Chathu so
+        she can personally contact you regarding your wedding.
+      </p>
+
+      <button
+        type="button"
+        onClick={sendLeadToChathu}
+        disabled={leadSending}
+        className="
           mt-3
           w-full
           rounded-xl
@@ -462,15 +569,16 @@ sm:py-2.5
           disabled:cursor-not-allowed
           disabled:opacity-60
         "
-                    >
-                      {leadSending ? "Sending..." : "Send my details to Chathu"}
-                    </button>
-                  </div>
-                )}
+      >
+        {leadSending
+          ? "Sending..."
+          : "Confirm & Send to Chathu"}
+      </button>
+    </div>
+  )}
 
               {loading && <TypingIndicator />}
 
-              {loading && <TypingIndicator />}
             </div>
 
             {/* Input */}
