@@ -32,6 +32,9 @@ export default function ChatWindow({ isOpen }: Props) {
 
   const [leadData, setLeadData] = useState<ChatLeadData>(emptyLeadData);
 
+  const [leadSending, setLeadSending] = useState(false);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: crypto.randomUUID(),
@@ -104,41 +107,26 @@ export default function ChatWindow({ isOpen }: Props) {
 
       const extractedLeadData = data.leadData;
 
-if (extractedLeadData) {
-  setLeadData((current) => ({
-    coupleName:
-      extractedLeadData.coupleName ||
-      current.coupleName,
+      if (extractedLeadData) {
+        setLeadData((current) => ({
+          coupleName: extractedLeadData.coupleName || current.coupleName,
 
-    weddingDate:
-      extractedLeadData.weddingDate ||
-      current.weddingDate,
+          weddingDate: extractedLeadData.weddingDate || current.weddingDate,
 
-    venue:
-      extractedLeadData.venue ||
-      current.venue,
+          venue: extractedLeadData.venue || current.venue,
 
-    service:
-      extractedLeadData.service ||
-      current.service,
+          service: extractedLeadData.service || current.service,
 
-    weddingType:
-      extractedLeadData.weddingType ||
-      current.weddingType,
+          weddingType: extractedLeadData.weddingType || current.weddingType,
 
-    guestCount:
-      extractedLeadData.guestCount ||
-      current.guestCount,
+          guestCount: extractedLeadData.guestCount || current.guestCount,
 
-    contactNumber:
-      extractedLeadData.contactNumber ||
-      current.contactNumber,
+          contactNumber:
+            extractedLeadData.contactNumber || current.contactNumber,
 
-    email:
-      extractedLeadData.email ||
-      current.email,
-  }));
-}
+          email: extractedLeadData.email || current.email,
+        }));
+      }
     } catch (error) {
       console.error("Chat request failed:", error);
 
@@ -156,6 +144,74 @@ if (extractedLeadData) {
       setMessages((current) => [...current, assistantErrorMessage]);
     } finally {
       setLoading(false);
+    }
+  };
+  const sendLeadToChathu = async () => {
+    if (
+      leadSending ||
+      leadSubmitted ||
+      !leadData.coupleName ||
+      !leadData.contactNumber
+    ) {
+      return;
+    }
+
+    setLeadSending(true);
+
+    try {
+      const conversation = messages
+        .map((message) => {
+          const speaker =
+            message.role === "assistant" ? "Chathu Concierge" : "Customer";
+
+          return `${speaker}: ${message.content}`;
+        })
+        .join("\n\n");
+
+      const response = await fetch("/api/chat-lead", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          ...leadData,
+          conversation,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Your details could not be sent right now.",
+        );
+      }
+
+      setLeadSubmitted(true);
+
+      const successMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content:
+          "Perfect! ❤️ I've shared your wedding details with Chathu. She will personally contact you to discuss your wedding and consultation.",
+      };
+
+      setMessages((current) => [...current, successMessage]);
+    } catch (error) {
+      console.error("Chat lead submission failed:", error);
+
+      const errorMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content:
+          "I couldn't send your details to Chathu right now. Please try again in a moment.",
+      };
+
+      setMessages((current) => [...current, errorMessage]);
+    } finally {
+      setLeadSending(false);
     }
   };
   return (
@@ -373,6 +429,46 @@ sm:py-2.5
               {messages.map((message) => (
                 <MessageBubble key={message.id} message={message} />
               ))}
+
+              {leadData.coupleName &&
+                leadData.contactNumber &&
+                !leadSubmitted && (
+                  <div className="rounded-2xl border border-[#ead8d0] bg-[#fff8f4] p-4">
+                    <p className="text-sm font-medium text-[#2f2927]">
+                      Would you like Chathu to personally contact you?
+                    </p>
+
+                    <p className="mt-1 text-xs leading-5 text-[#766d69]">
+                      I can securely send the wedding details you've shared to
+                      Chathu so she can contact you directly.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={sendLeadToChathu}
+                      disabled={leadSending}
+                      className="
+          mt-3
+          w-full
+          rounded-xl
+          bg-[#a87868]
+          px-4
+          py-3
+          text-sm
+          font-medium
+          text-white
+          transition
+          hover:bg-[#936856]
+          disabled:cursor-not-allowed
+          disabled:opacity-60
+        "
+                    >
+                      {leadSending ? "Sending..." : "Send my details to Chathu"}
+                    </button>
+                  </div>
+                )}
+
+              {loading && <TypingIndicator />}
 
               {loading && <TypingIndicator />}
             </div>
