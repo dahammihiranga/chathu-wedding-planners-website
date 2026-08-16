@@ -104,27 +104,37 @@ export default function ChatWindow({ isOpen }: Props) {
             scale: 0.95,
           }}
           className="
-          fixed
-          bottom-44
-          right-5
-          z-[60]
-          flex
-          h-[720px]
-          w-[380px]
-          flex-col
-          overflow-hidden
-          rounded-2xl
-          bg-white
-          shadow-[0_30px_80px_rgba(0,0,0,0.18)]
-          "
+  fixed
+  bottom-20
+  left-3
+  right-3
+  z-[60]
+  flex
+  h-[calc(100dvh-6rem)]
+  max-h-[720px]
+  min-h-0
+  flex-col
+  overflow-hidden
+  rounded-2xl
+  bg-white
+  shadow-[0_30px_80px_rgba(0,0,0,0.18)]
+
+  sm:bottom-44
+  sm:left-auto
+  sm:right-7
+  sm:h-[calc(100dvh-13rem)]
+  sm:w-[380px]
+"
         >
           <div className="border-b border-[#efe6e1] bg-white">
-            <div className="flex items-center gap-3 px-5 py-4">
+            <div className="flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-4">
               <div
                 className="
       flex
-      h-11
-      w-11
+      h-10
+w-10
+sm:h-11
+sm:w-11
       items-center
       justify-center
       rounded-full
@@ -137,7 +147,7 @@ export default function ChatWindow({ isOpen }: Props) {
               </div>
 
               <div>
-                <h2 className="font-serif text-xl text-[#2f2927]">
+                <h2 className="font-serif text-lg text-[#2f2927] sm:text-xl">
                   Chathu Concierge
                 </h2>
 
@@ -149,8 +159,8 @@ export default function ChatWindow({ isOpen }: Props) {
               </div>
             </div>
 
-            <div className="px-5 pb-4">
-              <p className="text-sm leading-6 text-[#6f6560]">
+            <div className="px-4 pb-3 sm:px-5 sm:pb-4">
+              <p className="text-xs leading-5 text-[#6f6560] sm:text-sm sm:leading-6">
                 Congratulations on your upcoming wedding ❤️
                 <br />
                 I'm here to help you plan your dream wedding.
@@ -159,7 +169,7 @@ export default function ChatWindow({ isOpen }: Props) {
           </div>
 
           <div className="flex min-h-0 flex-1 flex-col">
-            <div className="border-b border-[#efe6e1] px-4 py-3">
+            <div className="border-b border-[#efe6e1] px-3 py-2.5 sm:px-4 sm:py-3">
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() =>
@@ -174,15 +184,19 @@ export default function ChatWindow({ isOpen }: Props) {
   rounded-lg
   border
   border-[#eadfd8]
-  px-3
-  py-2.5
+  px-2.5
+py-2
+sm:px-3
+sm:py-2.5
   text-left
   transition
   hover:bg-[#faf7f5]
 "
                 >
                   <span className="text-base">💍</span>
-                  <span className="text-sm font-medium">Packages</span>
+                  <span className="text-xs font-medium sm:text-sm">
+                    Packages
+                  </span>
                 </button>
 
                 <button
@@ -196,15 +210,19 @@ export default function ChatWindow({ isOpen }: Props) {
   rounded-lg
   border
   border-[#eadfd8]
-  px-3
-  py-2.5
+  px-2.5
+py-2
+sm:px-3
+sm:py-2.5
   text-left
   transition
   hover:bg-[#faf7f5]
 "
                 >
                   <span className="text-base">📅</span>
-                  <span className="text-sm font-medium">Consultation</span>
+                  <span className="text-xs font-medium sm:text-sm">
+                    Consultation
+                  </span>
                 </button>
 
                 <button
@@ -220,15 +238,19 @@ export default function ChatWindow({ isOpen }: Props) {
   rounded-lg
   border
   border-[#eadfd8]
-  px-3
-  py-2.5
+  px-2.5
+py-2
+sm:px-3
+sm:py-2.5
   text-left
   transition
   hover:bg-[#faf7f5]
 "
                 >
                   <span className="text-base">💰</span>
-                  <span className="text-sm font-medium">Pricing</span>
+                  <span className="text-xs font-medium sm:text-sm">
+                    Pricing
+                  </span>
                 </button>
 
                 <button
@@ -244,15 +266,19 @@ export default function ChatWindow({ isOpen }: Props) {
   rounded-lg
   border
   border-[#eadfd8]
-  px-3
-  py-2.5
+  px-2.5
+py-2
+sm:px-3
+sm:py-2.5
   text-left
   transition
   hover:bg-[#faf7f5]
 "
                 >
                   <span className="text-base">💒</span>
-                  <span className="text-sm font-medium">Wedding Ideas</span>
+                  <span className="text-xs font-medium sm:text-sm">
+                    Wedding Ideas
+                  </span>
                 </button>
               </div>
             </div>
@@ -266,7 +292,8 @@ export default function ChatWindow({ isOpen }: Props) {
     overscroll-contain
     space-y-4
     bg-[#fcfbfa]
-    p-4
+    p-3
+    sm:p-4
   "
             >
               {messages.map((message) => (
@@ -278,7 +305,7 @@ export default function ChatWindow({ isOpen }: Props) {
 
             {/* Input */}
 
-            <div className="border-t border-[#eee5e0] p-3">
+            <div className="shrink-0 border-t border-[#eee5e0] bg-white p-2.5 sm:p-3">
               <div className="items-end flex gap-3">
                 <textarea
                   rows={1}
@@ -292,7 +319,8 @@ export default function ChatWindow({ isOpen }: Props) {
                   }}
                   placeholder="Ask about your wedding plans..."
                   className="
-        flex-1
+        min-w-0
+        grow
         max-h-32
         resize-none
         overflow-y-auto
@@ -311,14 +339,23 @@ export default function ChatWindow({ isOpen }: Props) {
                   onClick={() => sendMessage()}
                   disabled={loading || !input.trim()}
                   className="
-        rounded-xl
-        bg-[#a87868]
-        px-4
-        text-white
-        transition
-        hover:bg-[#936856]
-        disabled:opacity-50
-        "
+  flex
+  h-11
+  min-w-[88px]
+  items-center
+  justify-center
+  rounded-xl
+  bg-[#a87868]
+  px-5
+  text-sm
+  font-medium
+  text-white
+  transition
+  hover:bg-[#936856]
+  disabled:opacity-50
+  sm:min-w-[96px]
+  sm:px-6
+"
                 >
                   Send
                 </button>
