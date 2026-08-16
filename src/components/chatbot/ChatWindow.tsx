@@ -286,6 +286,25 @@ export default function ChatWindow({ isOpen }: Props) {
       setLeadSending(false);
     }
   };
+  const startNewChat = () => {
+    const confirmed = window.confirm(
+      "Start a new chat? Your current conversation and wedding details will be cleared.",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    sessionStorage.removeItem(CHAT_STORAGE_KEY);
+    sessionStorage.removeItem(LEAD_STORAGE_KEY);
+    sessionStorage.removeItem(LEAD_SUBMITTED_STORAGE_KEY);
+
+    setMessages([createWelcomeMessage()]);
+    setLeadData(emptyLeadData);
+    setLeadSubmitted(false);
+    setLeadSending(false);
+    setInput("");
+  };
   return (
     <AnimatePresence>
       {isOpen && (
@@ -348,7 +367,7 @@ sm:w-11
                 💍
               </div>
 
-              <div>
+              <div className="min-w-0 flex-1">
                 <h2 className="font-serif text-lg text-[#2f2927] sm:text-xl">
                   Chathu Concierge
                 </h2>
@@ -359,6 +378,33 @@ sm:w-11
                   <span className="text-xs text-[#8d817b]">Online</span>
                 </div>
               </div>
+
+              <button
+                type="button"
+                onClick={startNewChat}
+                disabled={loading || leadSending}
+                className="
+    shrink-0
+    rounded-lg
+    border
+    border-[#eadfd8]
+    px-2.5
+    py-2
+    text-[11px]
+    font-medium
+    text-[#766d69]
+    transition
+    hover:border-[#a87868]
+    hover:bg-[#fff8f4]
+    hover:text-[#a87868]
+    disabled:cursor-not-allowed
+    disabled:opacity-40
+    sm:px-3
+    sm:text-xs
+  "
+              >
+                New Chat
+              </button>
             </div>
 
             <div className="px-4 pb-3 sm:px-5 sm:pb-4">
