@@ -11,9 +11,54 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ChatBot from "@/components/chatbot/ChatBot";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://chathuweddingplanners.com/#business",
+
+  name: "Chathu Wedding Planners",
+  url: "https://chathuweddingplanners.com",
+
+  description:
+    "Professional wedding planning and wedding day coordination services in Sri Lanka.",
+
+  telephone: "+94762606777",
+
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Colombo",
+    addressCountry: "LK",
+  },
+
+  areaServed: {
+    "@type": "Country",
+    name: "Sri Lanka",
+  },
+
+  sameAs: [
+    "https://www.facebook.com/chathuweddingplanners/",
+    "https://www.instagram.com/chathu_wedding_planners/",
+    "https://www.tiktok.com/@chathu_wedding_planners",
+  ],
+
+  knowsAbout: [
+    "Full Wedding Planning",
+    "Partial Wedding Planning",
+    "Wedding Day Coordination",
+    "Wedding Agenda Planning",
+  ],
+};
+
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <Header />
 
       <main>
@@ -24,9 +69,9 @@ export default function HomePage() {
         <StatisticsSection />
         <PortfolioSection />
         <TestimonialsSection />
-        <AppointmentSection />  
+        <AppointmentSection />
       </main>
-      
+
       <Footer />
       <WhatsAppButton />
       <ChatBot />

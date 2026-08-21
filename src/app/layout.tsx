@@ -15,19 +15,68 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://chathuweddingplanners.com"),
+
   title: {
-    default: "Chathu Wedding Planners",
+    default: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
     template: "%s | Chathu Wedding Planners",
   },
+
   description:
-    "Professional full wedding planning, partial wedding planning and wedding day coordination services in Sri Lanka.",
+    "Professional wedding planning and wedding day coordination in Sri Lanka. Chathu Wedding Planners helps couples create beautiful, stress-free weddings with personalized planning and coordination.",
+
   keywords: [
     "wedding planner Sri Lanka",
+    "wedding planners Sri Lanka",
+    "wedding planning Sri Lanka",
+    "wedding coordinator Sri Lanka",
+    "wedding day coordinator Sri Lanka",
+    "wedding planner Colombo",
+    "wedding planning Colombo",
+    "Sri Lanka wedding planner",
     "Chathu Wedding Planners",
     "wedding day coordination",
     "full wedding planning",
     "partial wedding planning",
   ],
+
+  authors: [{ name: "Chathu Wedding Planners" }],
+  creator: "Chathu Wedding Planners",
+  publisher: "Chathu Wedding Planners",
+
+  alternates: {
+    canonical: "/",
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "en_LK",
+    url: "/",
+    siteName: "Chathu Wedding Planners",
+    title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
+    description:
+      "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
+  },
+
+  twitter: {
+  card: "summary_large_image",
+  title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
+  description:
+    "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
+  images: ["/opengraph-image.png"],
+},
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({

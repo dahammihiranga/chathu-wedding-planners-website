@@ -217,7 +217,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:hello@chathuweddingplanners.lk"
+                href="mailto:chathuweddingplanners@gmail.com"
                 className="group flex items-start gap-4"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 text-[#d6bba7] transition-all group-hover:border-[#a87868] group-hover:bg-[#a87868] group-hover:text-white">
