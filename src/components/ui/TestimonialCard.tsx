@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { MapPin, Quote, Star } from "lucide-react";
 import { FaFacebookF } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { motion } from "motion/react";
 
 import type { Testimonial } from "@/data/testimonials";
@@ -97,9 +98,15 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
             </div>
 
             <div className="inline-flex w-fit items-center gap-3 border border-[#dcd0ca] px-4 py-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1877F2] text-white">
-                <FaFacebookF aria-hidden="true" className="text-sm" />
-              </span>
+              {testimonial.source === "Google" ? (
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
+                  <FcGoogle aria-hidden="true" className="text-xl" />
+                </span>
+              ) : (
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1877F2] text-white">
+                  <FaFacebookF aria-hidden="true" className="text-sm" />
+                </span>
+              )}
 
               <div>
                 <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#2f2927]">

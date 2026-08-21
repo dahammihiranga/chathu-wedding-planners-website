@@ -66,6 +66,22 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     id: 8,
+    coupleNames: "Kaushi & Binal",
+    // category: "Church Wedding",
+    venue: "Taj Samudra, Colombo",
+    date: "14 August 2026",
+    image: "/images/portfolio/wedding-7.jpg",
+  },
+  {
+    id: 9,
+    coupleNames: "Hasanthika & Chanaka",
+    // category: "Church Wedding",
+    venue: "Paradise Inn Bolgoda",
+    date: "19 August 2026",
+    image: "/images/portfolio/wedding-7.jpg",
+  },
+  {
+    id: 10,
     coupleNames: "Nimesha & Darshana",
     // category: "Poruwa Ceremony",
     venue: "Nature Lanka Dehiattakandiya",
