@@ -63,7 +63,6 @@ export const metadata: Metadata = {
   title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
   description:
     "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
-  images: ["/opengraph-image.png"],
 },
 
   robots: {
