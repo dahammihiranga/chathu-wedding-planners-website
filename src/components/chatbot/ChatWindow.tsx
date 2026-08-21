@@ -159,7 +159,7 @@ export default function ChatWindow({ isOpen }: Props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          messages: updatedMessages.slice(-10),
+          messages: updatedMessages.slice(-8),
           leadData,
         }),
       });

@@ -16,7 +16,7 @@ async function generateWithRetry(
     parts: { text: string }[];
   }[],
 ) {
-  const maxAttempts = 4;
+  const maxAttempts = 2;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
@@ -25,6 +25,7 @@ async function generateWithRetry(
         contents,
 
         config: {
+          maxOutputTokens: 700,
           responseMimeType: "application/json",
 
           responseSchema: {
@@ -50,7 +51,7 @@ async function generateWithRetry(
                   weddingDate: {
                     type: "string",
                     description:
-                      "The customer's current wedding date after considering any corrections or updates in the full conversation. Otherwise return an empty string.",
+                      "The customer's current wedding date after considering the known wedding details and recent conversation, including any corrections or updates. Otherwise return an empty string.",
                   },
 
                   venue: {
@@ -113,14 +114,21 @@ async function generateWithRetry(
           ? Number((error as { status?: number }).status)
           : undefined;
 
-      const shouldRetry = status === 503 || status === 429;
+      const errorMessage = error instanceof Error ? error.message : "";
+
+      const quotaExhausted =
+        status === 429 &&
+        (errorMessage.includes("quota") ||
+          errorMessage.includes("RESOURCE_EXHAUSTED"));
+
+      const shouldRetry = status === 503 || (status === 429 && !quotaExhausted);
 
       if (!shouldRetry || attempt === maxAttempts) {
         throw error;
       }
 
-      const baseDelay = 2000 * 2 ** (attempt - 1);
-      const jitter = Math.floor(Math.random() * 1000);
+      const baseDelay = 750 * 2 ** (attempt - 1);
+      const jitter = Math.floor(Math.random() * 250);
       const delay = baseDelay + jitter;
 
       console.warn(
