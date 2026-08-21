@@ -119,9 +119,16 @@ async function generateWithRetry(
 
       const errorMessage = error instanceof Error ? error.message : "";
 
+      const errorName = error instanceof Error ? error.name : "";
+
+      const normalizedError = errorMessage.toLowerCase();
+
       const isTimeout =
-        errorMessage.toLowerCase().includes("timeout") ||
-        errorMessage.toLowerCase().includes("timed out");
+        errorName === "RequestTimeoutError" ||
+        errorName === "APIConnectionTimeoutError" ||
+        errorName === "AbortError" ||
+        normalizedError.includes("timeout") ||
+        normalizedError.includes("timed out");
 
       if (isTimeout) {
         throw error;
@@ -287,13 +294,16 @@ ${leadContext}`,
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Chat API error:", error);
-
     const errorMessage = error instanceof Error ? error.message : "";
+
+    const errorName = error instanceof Error ? error.name : "";
 
     const normalizedError = errorMessage.toLowerCase();
 
     const isTimeout =
+      errorName === "RequestTimeoutError" ||
+      errorName === "APIConnectionTimeoutError" ||
+      errorName === "AbortError" ||
       normalizedError.includes("timeout") ||
       normalizedError.includes("timed out");
 
