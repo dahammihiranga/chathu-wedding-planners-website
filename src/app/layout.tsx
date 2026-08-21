@@ -56,14 +56,23 @@ export const metadata: Metadata = {
     title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
     description:
       "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
+    images: [
+      {
+        url: "https://chathuweddingplanners.com/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Chathu Wedding Planners - Professional Wedding Planning in Sri Lanka",
+      },
+    ],
   },
 
   twitter: {
-  card: "summary_large_image",
-  title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
-  description:
-    "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
-},
+    card: "summary_large_image",
+    title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
+    description:
+      "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
+    images: ["https://chathuweddingplanners.com/images/og-image.png"],
+  },
 
   robots: {
     index: true,
