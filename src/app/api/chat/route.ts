@@ -1,4 +1,7 @@
-import { GoogleGenAI } from "@google/genai";
+import {
+  GoogleGenAI,
+  ThinkingLevel,
+} from "@google/genai";
 import { NextResponse } from "next/server";
 import { checkBotId } from "botid/server";
 
@@ -30,8 +33,8 @@ async function generateWithRetry(
   },
 
   thinkingConfig: {
-    thinkingLevel: "minimal",
-  },
+  thinkingLevel: ThinkingLevel.MINIMAL,
+},
 
   maxOutputTokens: 500,
 
