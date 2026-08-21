@@ -45,7 +45,7 @@ export default function AppointmentSection() {
     <section
       id="contact"
       aria-labelledby="appointment-heading"
-      className="relative scroll-mt-24 overflow-hidden bg-[#fffdfb] py-24 md:py-32"
+      className="relative scroll-mt-24 overflow-hidden bg-[#f8f3f0] py-24 md:py-32"
     >
       <div
         aria-hidden="true"

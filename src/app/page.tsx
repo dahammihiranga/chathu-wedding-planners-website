@@ -5,6 +5,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import StatisticsSection from "@/components/sections/StatisticsSection";
 import PortfolioSection from "@/components/sections/PortfolioSection";
+import VideoRecommendationsSection from "@/components/sections/VideoRecommendationsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import AppointmentSection from "@/components/sections/AppointmentSection";
 import Footer from "@/components/layout/Footer";
@@ -68,6 +69,7 @@ export default function HomePage() {
         <ServicesSection />
         <StatisticsSection />
         <PortfolioSection />
+        <VideoRecommendationsSection />
         <TestimonialsSection />
         <AppointmentSection />
       </main>

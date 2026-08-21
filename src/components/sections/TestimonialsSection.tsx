@@ -26,7 +26,7 @@ export default function TestimonialsSection() {
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      className="relative scroll-mt-24 overflow-hidden bg-[#f8f3f0] py-24 md:py-32"
+      className="relative scroll-mt-24 overflow-hidden bg-[#fffdfb] py-20 md:py-24"
     >
       <div
         aria-hidden="true"
@@ -132,7 +132,7 @@ export default function TestimonialsSection() {
             duration: 0.8,
             delay: 0.1,
           }}
-          className="mt-14 overflow-hidden shadow-[0_30px_80px_rgba(56,42,36,0.12)]"
+          className="mt-10 overflow-hidden shadow-[0_30px_80px_rgba(56,42,36,0.12)] md:mt-12"
         >
           <Swiper
             modules={[
