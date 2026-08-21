@@ -25,6 +25,9 @@ async function generateWithRetry(
         contents,
 
         config: {
+          httpOptions: {
+            timeout: 12000,
+          },
           maxOutputTokens: 700,
           responseMimeType: "application/json",
 
@@ -115,6 +118,14 @@ async function generateWithRetry(
           : undefined;
 
       const errorMessage = error instanceof Error ? error.message : "";
+
+      const isTimeout =
+        errorMessage.toLowerCase().includes("timeout") ||
+        errorMessage.toLowerCase().includes("timed out");
+
+      if (isTimeout) {
+        throw error;
+      }
 
       const quotaExhausted =
         status === 429 &&
@@ -277,6 +288,26 @@ ${leadContext}`,
     return NextResponse.json(result);
   } catch (error) {
     console.error("Chat API error:", error);
+
+    const errorMessage = error instanceof Error ? error.message : "";
+
+    const normalizedError = errorMessage.toLowerCase();
+
+    const isTimeout =
+      normalizedError.includes("timeout") ||
+      normalizedError.includes("timed out");
+
+    if (isTimeout) {
+      return NextResponse.json(
+        {
+          reply:
+            "I'm taking a little longer than expected to respond. Please try sending your message again in a moment. 🤍",
+        },
+        {
+          status: 504,
+        },
+      );
+    }
 
     const status =
       typeof error === "object" && error !== null && "status" in error
