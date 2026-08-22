@@ -180,10 +180,18 @@ async function generateWithRetry(
 }
 
 export async function POST(req: Request) {
+  const requestStartedAt = Date.now();
+
   try {
     console.log("CHAT CHECKPOINT 1: before BotID");
 
-    const botResult = await checkBotId();
+    const botIdStartedAt = Date.now();
+
+const botResult = await checkBotId();
+
+console.log("CHAT TIMING: BotID", {
+  durationMs: Date.now() - botIdStartedAt,
+});
 
     console.log("CHAT CHECKPOINT 2: BotID passed", {
       isBot: botResult.isBot,
@@ -260,7 +268,14 @@ ${leadContext}`,
 
     console.log("CHAT CHECKPOINT 3: before Gemini");
 
-    const response = await generateWithRetry(contents);
+    const geminiStartedAt = Date.now();
+
+const response = await generateWithRetry(contents);
+
+console.log("CHAT TIMING: Gemini", {
+  durationMs: Date.now() - geminiStartedAt,
+  responseLength: response.text?.length ?? 0,
+});
 
     console.log("CHAT CHECKPOINT 4: Gemini returned", {
       hasText: Boolean(response.text),
@@ -272,6 +287,8 @@ ${leadContext}`,
     }
 
     console.log("CHAT CHECKPOINT 5: parsing Gemini JSON");
+
+    const parseStartedAt = Date.now();
 
     const result = JSON.parse(response.text) as {
       reply: string;
@@ -287,6 +304,14 @@ ${leadContext}`,
         email: string;
       };
     };
+
+    console.log("CHAT TIMING: JSON parse", {
+  durationMs: Date.now() - parseStartedAt,
+});
+
+console.log("CHAT TIMING: Total API", {
+  durationMs: Date.now() - requestStartedAt,
+});
 
     return NextResponse.json(result);
   } catch (error) {
