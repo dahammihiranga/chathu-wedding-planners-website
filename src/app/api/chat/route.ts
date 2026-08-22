@@ -22,7 +22,7 @@ async function generateWithRetry(
 
       config: {
         httpOptions: {
-          timeout: 8000,
+          timeout: 10000,
         },
 
         maxOutputTokens: 500,
