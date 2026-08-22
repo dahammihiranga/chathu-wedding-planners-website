@@ -11,6 +11,7 @@ import AppointmentSection from "@/components/sections/AppointmentSection";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import ChatBot from "@/components/chatbot/ChatBot";
+import WelcomeScreen from "@/components/ui/WelcomeScreen";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -59,6 +60,8 @@ export default function HomePage() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
+
+      <WelcomeScreen />
 
       <Header />
 
