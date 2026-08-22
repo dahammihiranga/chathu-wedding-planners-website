@@ -8,175 +8,111 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,
 });
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 async function generateWithRetry(
+  model: string,
   contents: {
     role: string;
     parts: { text: string }[];
   }[],
 ) {
-  const maxAttempts = 2;
+  try {
+    return await ai.models.generateContent({
+      model,
+      contents,
 
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      return await ai.models.generateContent({
-        model: process.env.GEMINI_MODEL!,
-        contents,
+      config: {
+        httpOptions: {
+          timeout: 8000,
+        },
 
-        config: {
-          httpOptions: {
-            timeout: 12000,
-          },
+        maxOutputTokens: 500,
 
-          maxOutputTokens: 500,
+        responseMimeType: "application/json",
 
-          responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
 
-          responseSchema: {
-            type: "object",
-
-            properties: {
-              reply: {
-                type: "string",
-                description:
-                  "The natural conversational reply that will be shown to the customer. Markdown is allowed.",
-              },
-
-              leadData: {
-                type: "object",
-
-                properties: {
-                  coupleName: {
-                    type: "string",
-                    description:
-                      "The couple's current names after considering any corrections. Include both names when both are known. Otherwise return an empty string.",
-                  },
-
-                  weddingDate: {
-                    type: "string",
-                    description:
-                      "The customer's current wedding date after considering the known wedding details and recent conversation, including any corrections or updates. Otherwise return an empty string.",
-                  },
-
-                  venue: {
-                    type: "string",
-                    description:
-                      "The customer's current wedding venue after considering any corrections or venue changes. Otherwise return an empty string.",
-                  },
-
-                  service: {
-                    type: "string",
-                    description:
-                      "The current Chathu Wedding Planners service the customer is interested in after considering any changes or corrections. Otherwise return an empty string.",
-                  },
-
-                  weddingType: {
-                    type: "string",
-                    description:
-                      "The customer's current wedding type after considering any corrections or changes. Otherwise return an empty string.",
-                  },
-
-                  guestCount: {
-                    type: "string",
-                    description:
-                      "The customer's latest expected guest count after considering any corrections or updates. Otherwise return an empty string.",
-                  },
-
-                  contactNumber: {
-                    type: "string",
-                    description:
-                      "The customer's latest contact or WhatsApp number after considering any corrections. Otherwise return an empty string.",
-                  },
-
-                  email: {
-                    type: "string",
-                    description:
-                      "The customer's latest email address after considering any corrections. Otherwise return an empty string.",
-                  },
-                },
-
-                required: [
-                  "coupleName",
-                  "weddingDate",
-                  "venue",
-                  "service",
-                  "weddingType",
-                  "guestCount",
-                  "contactNumber",
-                  "email",
-                ],
-              },
+          properties: {
+            reply: {
+              type: "string",
+              description:
+                "The natural conversational reply that will be shown to the customer. Markdown is allowed.",
             },
 
-            required: ["reply", "leadData"],
+            leadData: {
+              type: "object",
+
+              properties: {
+                coupleName: {
+                  type: "string",
+                  description:
+                    "The couple's current names after considering any corrections. Include both names when both are known. Otherwise return an empty string.",
+                },
+
+                weddingDate: {
+                  type: "string",
+                  description:
+                    "The customer's current wedding date after considering the known wedding details and recent conversation, including any corrections or updates. Otherwise return an empty string.",
+                },
+
+                venue: {
+                  type: "string",
+                  description:
+                    "The customer's current wedding venue after considering any corrections or venue changes. Otherwise return an empty string.",
+                },
+
+                service: {
+                  type: "string",
+                  description:
+                    "The current Chathu Wedding Planners service the customer is interested in after considering any changes or corrections. Otherwise return an empty string.",
+                },
+
+                weddingType: {
+                  type: "string",
+                  description:
+                    "The customer's current wedding type after considering any corrections or changes. Otherwise return an empty string.",
+                },
+
+                guestCount: {
+                  type: "string",
+                  description:
+                    "The customer's latest expected guest count after considering any corrections or updates. Otherwise return an empty string.",
+                },
+
+                contactNumber: {
+                  type: "string",
+                  description:
+                    "The customer's latest contact or WhatsApp number after considering any corrections. Otherwise return an empty string.",
+                },
+
+                email: {
+                  type: "string",
+                  description:
+                    "The customer's latest email address after considering any corrections. Otherwise return an empty string.",
+                },
+              },
+
+              required: [
+                "coupleName",
+                "weddingDate",
+                "venue",
+                "service",
+                "weddingType",
+                "guestCount",
+                "contactNumber",
+                "email",
+              ],
+            },
           },
+
+          required: ["reply", "leadData"],
         },
-      });
-    } catch (error) {
-      console.error("Chat API FULL ERROR:", error);
-
-      console.error("Chat API ERROR DETAILS:", {
-        name: error instanceof Error ? error.name : "unknown",
-
-        message: error instanceof Error ? error.message : String(error),
-
-        constructor:
-          error && typeof error === "object" && "constructor" in error
-            ? error.constructor?.name
-            : "unknown",
-
-        status:
-          typeof error === "object" && error !== null && "status" in error
-            ? (error as { status?: unknown }).status
-            : undefined,
-      });
-      const status =
-        typeof error === "object" && error !== null && "status" in error
-          ? Number((error as { status?: number }).status)
-          : undefined;
-
-      const errorMessage = error instanceof Error ? error.message : "";
-
-      const errorName = error instanceof Error ? error.name : "";
-
-      const normalizedError = errorMessage.toLowerCase();
-
-      const isTimeout =
-        errorName === "RequestTimeoutError" ||
-        errorName === "APIConnectionTimeoutError" ||
-        errorName === "AbortError" ||
-        normalizedError.includes("timeout") ||
-        normalizedError.includes("timed out");
-
-      if (isTimeout) {
-        throw error;
-      }
-
-      const quotaExhausted =
-        status === 429 &&
-        (errorMessage.includes("quota") ||
-          errorMessage.includes("RESOURCE_EXHAUSTED"));
-
-      const shouldRetry = status === 503 || (status === 429 && !quotaExhausted);
-
-      if (!shouldRetry || attempt === maxAttempts) {
-        throw error;
-      }
-
-      const baseDelay = 750 * 2 ** (attempt - 1);
-      const jitter = Math.floor(Math.random() * 250);
-      const delay = baseDelay + jitter;
-
-      console.warn(
-        `Gemini rate limited/unavailable. Retry ${attempt}/${maxAttempts} in ${delay}ms.`,
-      );
-
-      await sleep(delay);
-    }
+      },
+    });
+  } catch (error) {
+    console.error(`Gemini model failed: ${model}`, error);
+    throw error;
   }
-
-  throw new Error("Gemini request failed after retries.");
 }
 
 export async function POST(req: Request) {
@@ -187,11 +123,11 @@ export async function POST(req: Request) {
 
     const botIdStartedAt = Date.now();
 
-const botResult = await checkBotId();
+    const botResult = await checkBotId();
 
-console.log("CHAT TIMING: BotID", {
-  durationMs: Date.now() - botIdStartedAt,
-});
+    console.log("CHAT TIMING: BotID", {
+      durationMs: Date.now() - botIdStartedAt,
+    });
 
     console.log("CHAT CHECKPOINT 2: BotID passed", {
       isBot: botResult.isBot,
@@ -270,12 +206,70 @@ ${leadContext}`,
 
     const geminiStartedAt = Date.now();
 
-const response = await generateWithRetry(contents);
+    const primaryModel = process.env.GEMINI_MODEL!;
 
-console.log("CHAT TIMING: Gemini", {
-  durationMs: Date.now() - geminiStartedAt,
-  responseLength: response.text?.length ?? 0,
-});
+    const fallbackModel =
+      process.env.GEMINI_FALLBACK_MODEL || "gemini-3.1-flash-lite";
+
+    let response;
+
+    try {
+      console.log("CHAT MODEL: primary", {
+        model: primaryModel,
+      });
+
+      response = await generateWithRetry(primaryModel, contents);
+    } catch (primaryError) {
+      const primaryStatus =
+        typeof primaryError === "object" &&
+        primaryError !== null &&
+        "status" in primaryError
+          ? Number(
+              (
+                primaryError as {
+                  status?: number;
+                }
+              ).status,
+            )
+          : undefined;
+
+      const primaryName =
+        primaryError instanceof Error ? primaryError.name : "";
+
+      const primaryMessage =
+        primaryError instanceof Error ? primaryError.message.toLowerCase() : "";
+
+      const primaryTimedOut =
+        primaryName === "RequestTimeoutError" ||
+        primaryName === "APIConnectionTimeoutError" ||
+        primaryName === "AbortError" ||
+        primaryMessage.includes("timeout") ||
+        primaryMessage.includes("timed out");
+
+      const canUseFallback =
+        primaryStatus === 503 || primaryStatus === 429 || primaryTimedOut;
+
+      if (!canUseFallback) {
+        throw primaryError;
+      }
+
+      console.warn("CHAT MODEL: primary unavailable, using fallback", {
+        primaryModel,
+        fallbackModel,
+        status: primaryStatus,
+      });
+
+      response = await generateWithRetry(fallbackModel, contents);
+
+      console.log("CHAT MODEL: fallback succeeded", {
+        model: fallbackModel,
+      });
+    }
+
+    console.log("CHAT TIMING: Gemini", {
+      durationMs: Date.now() - geminiStartedAt,
+      responseLength: response.text?.length ?? 0,
+    });
 
     console.log("CHAT CHECKPOINT 4: Gemini returned", {
       hasText: Boolean(response.text),
@@ -306,12 +300,12 @@ console.log("CHAT TIMING: Gemini", {
     };
 
     console.log("CHAT TIMING: JSON parse", {
-  durationMs: Date.now() - parseStartedAt,
-});
+      durationMs: Date.now() - parseStartedAt,
+    });
 
-console.log("CHAT TIMING: Total API", {
-  durationMs: Date.now() - requestStartedAt,
-});
+    console.log("CHAT TIMING: Total API", {
+      durationMs: Date.now() - requestStartedAt,
+    });
 
     return NextResponse.json(result);
   } catch (error) {
