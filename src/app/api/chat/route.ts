@@ -1,4 +1,4 @@
-import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { NextResponse } from "next/server";
 import { checkBotId } from "botid/server";
 
@@ -27,10 +27,6 @@ async function generateWithRetry(
         config: {
           httpOptions: {
             timeout: 12000,
-          },
-
-          thinkingConfig: {
-            thinkingLevel: ThinkingLevel.MINIMAL,
           },
 
           maxOutputTokens: 500,
