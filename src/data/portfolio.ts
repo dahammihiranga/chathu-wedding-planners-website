@@ -70,7 +70,7 @@ export const portfolioItems: PortfolioItem[] = [
     // category: "Church Wedding",
     venue: "Taj Samudra, Colombo",
     date: "14 August 2026",
-    image: "/images/portfolio/wedding-7.jpg",
+    image: "/images/portfolio/wedding-10.png",
   },
   {
     id: 9,
@@ -78,7 +78,7 @@ export const portfolioItems: PortfolioItem[] = [
     // category: "Church Wedding",
     venue: "Paradise Inn Bolgoda",
     date: "19 August 2026",
-    image: "/images/portfolio/wedding-7.jpg",
+    image: "/images/portfolio/wedding-9.jpg",
   },
   {
     id: 10,
