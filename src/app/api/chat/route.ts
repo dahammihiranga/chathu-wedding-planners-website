@@ -1,7 +1,4 @@
-import {
-  GoogleGenAI,
-  ThinkingLevel,
-} from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { NextResponse } from "next/server";
 import { checkBotId } from "botid/server";
 
@@ -28,17 +25,17 @@ async function generateWithRetry(
         contents,
 
         config: {
-  httpOptions: {
-    timeout: 12000,
-  },
+          httpOptions: {
+            timeout: 12000,
+          },
 
-  thinkingConfig: {
-  thinkingLevel: ThinkingLevel.MINIMAL,
-},
+          thinkingConfig: {
+            thinkingLevel: ThinkingLevel.MINIMAL,
+          },
 
-  maxOutputTokens: 500,
+          maxOutputTokens: 500,
 
-  responseMimeType: "application/json",
+          responseMimeType: "application/json",
 
           responseSchema: {
             type: "object",
@@ -121,6 +118,23 @@ async function generateWithRetry(
         },
       });
     } catch (error) {
+      console.error("Chat API FULL ERROR:", error);
+
+      console.error("Chat API ERROR DETAILS:", {
+        name: error instanceof Error ? error.name : "unknown",
+
+        message: error instanceof Error ? error.message : String(error),
+
+        constructor:
+          error && typeof error === "object" && "constructor" in error
+            ? error.constructor?.name
+            : "unknown",
+
+        status:
+          typeof error === "object" && error !== null && "status" in error
+            ? (error as { status?: unknown }).status
+            : undefined,
+      });
       const status =
         typeof error === "object" && error !== null && "status" in error
           ? Number((error as { status?: number }).status)
@@ -171,7 +185,13 @@ async function generateWithRetry(
 
 export async function POST(req: Request) {
   try {
+    console.log("CHAT CHECKPOINT 1: before BotID");
+
     const botResult = await checkBotId();
+
+    console.log("CHAT CHECKPOINT 2: BotID passed", {
+      isBot: botResult.isBot,
+    });
 
     if (botResult.isBot) {
       return NextResponse.json(
@@ -202,7 +222,7 @@ Rules:
 `;
     const { messages, leadData } = await req.json();
 
-   const leadContext = `
+    const leadContext = `
 CURRENT KNOWN WEDDING DETAILS
 
 Couple: ${leadData?.coupleName || ""}
@@ -242,11 +262,20 @@ ${leadContext}`,
       })),
     ];
 
+    console.log("CHAT CHECKPOINT 3: before Gemini");
+
     const response = await generateWithRetry(contents);
+
+    console.log("CHAT CHECKPOINT 4: Gemini returned", {
+      hasText: Boolean(response.text),
+      textLength: response.text?.length ?? 0,
+    });
 
     if (!response.text) {
       throw new Error("Gemini returned an empty response.");
     }
+
+    console.log("CHAT CHECKPOINT 5: parsing Gemini JSON");
 
     const result = JSON.parse(response.text) as {
       reply: string;
