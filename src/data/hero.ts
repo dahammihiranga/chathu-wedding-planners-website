@@ -19,11 +19,11 @@ export const heroSlides: HeroSlide[] = [
   {
     id: 1,
     image: "/images/hero/hero-1.png",
-    eyebrow: "Chathu Wedding Planners",
+    eyebrow: "Wedding Planner • Colombo • Sri Lanka",
     title: "Your Dream Wedding,",
     highlightedTitle: "Perfectly Planned",
     description:
-      "From your first idea to the final celebration, we carefully plan every detail so you can enjoy a beautiful and stress-free wedding day.",
+      "Professional wedding planning and wedding day coordination in Colombo and across Sri Lanka, thoughtfully tailored to create a beautiful and stress-free celebration.",
     primaryButton: {
       label: "Plan Your Wedding",
       href: "#contact",
@@ -36,11 +36,11 @@ export const heroSlides: HeroSlide[] = [
   {
     id: 2,
     image: "/images/hero/hero-2.png",
-    eyebrow: "Elegant Wedding Experiences",
+    eyebrow: "Beautifully Planned Celebrations",
     title: "Every Beautiful Moment,",
     highlightedTitle: "Thoughtfully Created",
     description:
-      "We combine creativity, professional coordination and personal care to transform your wedding vision into an unforgettable celebration.",
+      "From full wedding planning to partial planning, our team brings together creativity, professional coordination and personal care to turn your wedding vision into an unforgettable celebration.",
     primaryButton: {
       label: "Explore Our Services",
       href: "#services",
@@ -57,7 +57,7 @@ export const heroSlides: HeroSlide[] = [
     title: "You Enjoy the Love,",
     highlightedTitle: "We Handle the Details",
     description:
-      "Timelines, suppliers, ceremonies and every meaningful detail are coordinated with care, allowing you to be fully present on your special day.",
+      "Our wedding day coordination team manages timelines, venues, vendors, ceremonies and every important detail, allowing you and your family to be fully present on your special day.",
     primaryButton: {
       label: "Book a Consultation",
       href: "#contact",

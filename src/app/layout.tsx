@@ -18,12 +18,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://chathuweddingplanners.com"),
 
   title: {
-    default: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
-    template: "%s | Chathu Wedding Planners",
-  },
+  default:
+    "Wedding Planner Sri Lanka | Chathu Wedding Planners",
+  template: "%s | Chathu Wedding Planners",
+},
 
-  description:
-    "Professional wedding planning and wedding day coordination in Sri Lanka. Chathu Wedding Planners helps couples create beautiful, stress-free weddings with personalized planning and coordination.",
+description:
+  "Chathu Wedding Planners offers professional wedding planning and wedding day coordination in Colombo and across Sri Lanka. Plan your dream wedding with confidence.",
 
   keywords: [
     "wedding planner Sri Lanka",
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     locale: "en_LK",
     url: "/",
     siteName: "Chathu Wedding Planners",
-    title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
+    title: "Wedding Planner Sri Lanka | Chathu Wedding Planners",
     description:
       "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
     images: [
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Chathu Wedding Planners | Wedding Planner in Sri Lanka",
+    title: "Wedding Planner Sri Lanka | Chathu Wedding Planners",
     description:
       "Professional wedding planning and wedding day coordination in Sri Lanka. Creating beautiful, personalized and stress-free weddings.",
     images: ["https://chathuweddingplanners.com/images/og-image.png"],

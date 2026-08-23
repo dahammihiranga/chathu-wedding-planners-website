@@ -19,6 +19,9 @@ export default function HeroSection() {
       id="home"
       className="relative min-h-screen overflow-hidden bg-[#2f2927]"
     >
+      <h1 className="sr-only">
+        Wedding Planner Sri Lanka - Chathu Wedding Planners
+      </h1>
       <Swiper
         modules={[Autoplay, EffectFade, Navigation]}
         effect="fade"
@@ -92,7 +95,7 @@ export default function HeroSection() {
                       </p>
                     </motion.div>
 
-                    <motion.h1
+                    <motion.h2
                       initial={{ opacity: 0, y: 45 }}
                       animate={
                         isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 45 }
@@ -109,7 +112,7 @@ export default function HeroSection() {
                       <span className="mt-2 block font-normal italic text-[#ead8d0]">
                         {slide.highlightedTitle}
                       </span>
-                    </motion.h1>
+                    </motion.h2>
 
                     <motion.p
                       initial={{ opacity: 0, y: 30 }}

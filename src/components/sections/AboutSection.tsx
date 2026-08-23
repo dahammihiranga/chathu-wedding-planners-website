@@ -1,10 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  ArrowUpRight,
-  Heart,
-} from "lucide-react";
+import { ArrowUpRight, Heart } from "lucide-react";
 import { motion } from "motion/react";
 
 import Container from "@/components/ui/Container";
@@ -84,7 +81,7 @@ export default function AboutSection() {
             >
               <Image
                 src="/images/about/about-small.jpg"
-                alt="Elegant wedding ceremony setup"
+                alt="Elegant wedding ceremony setup in Sri Lanka"
                 fill
                 sizes="(max-width: 1024px) 55vw, 28vw"
                 className="object-cover"
@@ -131,11 +128,7 @@ export default function AboutSection() {
               }}
               className="absolute -left-5 top-8 hidden h-24 w-24 items-center justify-center rounded-full border border-[#a87868]/20 md:flex"
             >
-              <Heart
-                size={28}
-                strokeWidth={1}
-                className="text-[#a87868]/60"
-              />
+              <Heart size={28} strokeWidth={1} className="text-[#a87868]/60" />
             </motion.div>
 
             <motion.div
@@ -204,16 +197,19 @@ export default function AboutSection() {
             </h2>
 
             <p className="mt-7 max-w-xl text-base leading-8 text-[#766d69]">
-              We believe your wedding should feel joyful, meaningful and
-              completely stress-free. From the earliest planning stages to the
-              final moment of your celebration, our team carefully coordinates
-              every detail with professionalism, creativity and genuine care.
+              Chathu Wedding Planners is a professional wedding planning team
+              based in Colombo, Sri Lanka, creating beautiful, meaningful and
+              stress-free celebrations. From full and partial wedding planning
+              to wedding day coordination, we carefully manage every detail with
+              professionalism, creativity and genuine care.
             </p>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-[#766d69]">
-              Whether it is a hotel reception, poruwa ceremony, church ceremony
-              or intimate celebration, we work closely with you and your
-              families to ensure everything happens beautifully and on time.
+              Whether you are planning a hotel reception, traditional Poruwa
+              ceremony, church wedding or an intimate celebration, we work
+              closely with couples, families, venues and wedding vendors to
+              ensure every part of your special day happens beautifully and on
+              time.
             </p>
 
             <div className="mt-10 space-y-6">
@@ -242,10 +238,7 @@ export default function AboutSection() {
                     className="group flex gap-5"
                   >
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-[#ead8d0] bg-[#fffaf7] text-[#a87868] transition-all duration-300 group-hover:border-[#a87868] group-hover:bg-[#a87868] group-hover:text-white">
-                      <Icon
-                        size={20}
-                        strokeWidth={1.5}
-                      />
+                      <Icon size={20} strokeWidth={1.5} />
                     </div>
 
                     <div>
@@ -278,7 +271,6 @@ export default function AboutSection() {
                 className="group inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#2f2927]"
               >
                 Discover Our Services
-
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#a87868] text-white transition-transform duration-300 group-hover:rotate-45">
                   <ArrowUpRight size={17} />
                 </span>

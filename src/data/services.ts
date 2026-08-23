@@ -22,7 +22,7 @@ export const services: Service[] = [
     title: "Full Wedding Planning",
     shortTitle: "Full Planning",
     description:
-      "Complete support from the first consultation to the final wedding-day celebration.",
+  "Complete wedding planning support from the first consultation to the final celebration, including coordination of venues, vendors, budgets and timelines.",
     image: "/images/services/full-planning.jpg",
     icon: HeartHandshake,
     features: [
@@ -36,7 +36,7 @@ export const services: Service[] = [
     title: "Partial Wedding Planning",
     shortTitle: "Partial Planning",
     description:
-      "Professional guidance for couples who have started planning but need expert support.",
+  "Professional wedding planning support for couples who have already started planning but need expert help completing the remaining details.",
     image: "/images/services/partial-planning.jpg",
     icon: Sparkles,
     features: [
@@ -50,7 +50,7 @@ export const services: Service[] = [
     title: "Wedding Day Coordination",
     shortTitle: "Day Coordination",
     description:
-      "Complete management of your wedding day so you and your family can enjoy every moment.",
+  "Professional wedding day coordination to manage timelines, vendors, ceremonies and venue activities so you and your family can enjoy every moment.",
     image: "/images/services/day-coordination.jpg",
     icon: ClipboardCheck,
     features: [
@@ -64,7 +64,7 @@ export const services: Service[] = [
     title: "Wedding Agenda Making",
     shortTitle: "Agenda Making",
     description:
-      "A carefully prepared wedding agenda that keeps every activity organized and on time.",
+  "A carefully prepared wedding agenda and event timeline that keeps ceremonies, vendors and reception activities organized and on time.",
     image: "/images/services/agenda-making.jpg",
     icon: CalendarClock,
     features: [

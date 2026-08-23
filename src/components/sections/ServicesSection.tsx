@@ -55,9 +55,9 @@ export default function ServicesSection() {
               id="services-heading"
               className="max-w-3xl font-serif text-5xl font-medium leading-[0.98] text-[#2f2927] sm:text-6xl lg:text-7xl"
             >
-              Planning Support for
+              Wedding Planning Services
               <span className="mt-2 block italic text-[#a87868]">
-                Every Stage of Your Journey
+                for Every Stage of Your Journey
               </span>
             </h2>
           </motion.div>
@@ -82,8 +82,9 @@ export default function ServicesSection() {
             className="max-w-md"
           >
             <p className="text-sm leading-7 text-[#766d69] md:text-base md:leading-8">
-              Choose the level of support that fits your wedding. From complete
-              planning to wedding-day coordination, we make every step clear,
+              Choose the level of support that fits your wedding. From full and
+              partial wedding planning to professional wedding day coordination
+              in Colombo and across Sri Lanka, we make every step clear,
               organized and stress-free.
             </p>
 
@@ -92,7 +93,6 @@ export default function ServicesSection() {
               className="group mt-6 inline-flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2f2927]"
             >
               Discuss Your Wedding
-
               <ArrowRight
                 size={17}
                 className="transition-transform duration-300 group-hover:translate-x-2"
@@ -103,11 +103,7 @@ export default function ServicesSection() {
 
         <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {services.map((service, index) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              index={index}
-            />
+            <ServiceCard key={service.id} service={service} index={index} />
           ))}
         </div>
 
