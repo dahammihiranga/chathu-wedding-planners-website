@@ -2,11 +2,12 @@
 
 import { ArrowUp, Heart, Mail, MapPin, Phone } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 import Container from "@/components/ui/Container";
 import { footerNavigation, footerServices, socialLinks } from "@/data/footer";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const socialIcons = {
   Facebook: FaFacebookF,
@@ -17,9 +18,28 @@ const socialIcons = {
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
+      left: 0,
       behavior: "smooth",
     });
   };
@@ -245,7 +265,9 @@ export default function Footer() {
                     Location
                   </p>
 
-                  <p className="mt-1 text-sm text-white/65">Colombo, Sri Lanka</p>
+                  <p className="mt-1 text-sm text-white/65">
+                    Colombo, Sri Lanka
+                  </p>
                 </div>
               </div>
             </div>
@@ -267,14 +289,68 @@ export default function Footer() {
         </div>
       </Container>
 
-      <button
-        type="button"
-        onClick={scrollToTop}
-        aria-label="Scroll to top"
-        className="absolute bottom-24 right-5 flex h-12 w-12 items-center justify-center border border-white/15 bg-[#251f1d] text-white transition-all hover:border-[#a87868] hover:bg-[#a87868] sm:right-8"
-      >
-        <ArrowUp size={17} />
-      </button>
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            type="button"
+            onClick={scrollToTop}
+            aria-label="Scroll to top"
+            initial={{
+              opacity: 0,
+              y: 15,
+              scale: 0.85,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+            }}
+            exit={{
+              opacity: 0,
+              y: 15,
+              scale: 0.85,
+            }}
+            transition={{
+              duration: 0.3,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            whileHover={{
+              y: -3,
+            }}
+            whileTap={{
+              scale: 0.92,
+            }}
+            className="
+  fixed
+  bottom-6
+  right-44
+  z-[60]
+  flex
+  h-12
+  w-12
+  items-center
+  justify-center
+  rounded-full
+  border
+  border-[#a87868]/30
+  bg-[#fffaf7]/95
+  text-[#a87868]
+  shadow-[0_12px_35px_rgba(47,41,39,0.16)]
+  backdrop-blur-md
+  transition-colors
+  hover:border-[#a87868]
+  hover:bg-[#a87868]
+  hover:text-white
+  sm:bottom-8
+  sm:right-64
+  sm:h-14
+  sm:w-14
+"
+          >
+            <ArrowUp size={18} strokeWidth={1.7} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }

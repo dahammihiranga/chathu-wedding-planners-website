@@ -1,31 +1,31 @@
 export type NavigationItem = {
   label: string;
-  href: string;
+  sectionId: string;
 };
 
 export const navigationItems: NavigationItem[] = [
   {
     label: "Home",
-    href: "/#home",
+    sectionId: "home",
   },
   {
     label: "About",
-    href: "/#about",
+    sectionId: "about",
   },
   {
     label: "Services",
-    href: "/#services",
+    sectionId: "services",
   },
   {
     label: "Portfolio",
-    href: "/#portfolio",
+    sectionId: "portfolio",
   },
   {
     label: "Reviews",
-    href: "/#testimonials",
+    sectionId: "testimonials",
   },
   {
     label: "Contact",
-    href: "/#contact",
+    sectionId: "contact",
   },
 ];

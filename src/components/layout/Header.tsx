@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -9,6 +10,9 @@ import { navigationItems } from "@/data/navigation";
 import Image from "next/image";
 
 export default function Header() {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -36,8 +40,91 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sectionId = sessionStorage.getItem("scrollToSection");
+
+    if (!sectionId) return;
+
+    let attempts = 0;
+    let timer: ReturnType<typeof setTimeout>;
+
+    const scrollToTarget = () => {
+      attempts += 1;
+
+      if (sectionId === "home") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+
+        sessionStorage.removeItem("scrollToSection");
+
+        return;
+      }
+
+      const element = document.getElementById(sectionId);
+
+      if (element) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            element.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            sessionStorage.removeItem("scrollToSection");
+          });
+        });
+
+        return;
+      }
+
+      // Homepage content may not be ready yet.
+      if (attempts < 20) {
+        timer = setTimeout(scrollToTarget, 100);
+      }
+    };
+
+    timer = setTimeout(scrollToTarget, 150);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [pathname]);
+
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    closeMenu();
+
+    // Already on homepage
+    if (pathname === "/") {
+      if (sectionId === "home") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      }
+
+      document.getElementById(sectionId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      return;
+    }
+
+    // Coming from another page, e.g. /services/full-wedding-planning
+    sessionStorage.setItem("scrollToSection", sectionId);
+
+    router.push("/", {
+      scroll: false,
+    });
   };
 
   return (
@@ -51,16 +138,17 @@ export default function Header() {
       <Container>
         <div className="flex items-center justify-between">
           <a
-            href="/#home"
-            onClick={closeMenu}
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection("home");
+            }}
             className="relative z-50 flex flex-col"
             aria-label="Chathu Wedding Planners home"
           >
             <span
               className={`font-anelyas text-2xl font-semibold leading-none transition-colors duration-300 md:text-3xl ${
-                isScrolled || isMenuOpen
-                  ? "text-[#2f2927]"
-                  : "text-white"
+                isScrolled || isMenuOpen ? "text-[#2f2927]" : "text-white"
               }`}
             >
               Chathu
@@ -68,9 +156,7 @@ export default function Header() {
 
             <span
               className={`mt-1 text-[8px] font-semibold uppercase tracking-[0.34em] transition-colors duration-300 md:text-[9px] ${
-                isScrolled || isMenuOpen
-                  ? "text-[#a87868]"
-                  : "text-white/80"
+                isScrolled || isMenuOpen ? "text-[#a87868]" : "text-white/80"
               }`}
             >
               Wedding Planners
@@ -82,9 +168,10 @@ export default function Header() {
             className="hidden items-center gap-7 lg:flex xl:gap-10"
           >
             {navigationItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
+              <button
+                key={item.sectionId}
+                type="button"
+                onClick={() => scrollToSection(item.sectionId)}
                 className={`group relative py-2 text-sm font-medium transition-colors ${
                   isScrolled
                     ? "text-[#4f4743] hover:text-[#a87868]"
@@ -98,13 +185,14 @@ export default function Header() {
                     isScrolled ? "bg-[#a87868]" : "bg-white"
                   }`}
                 />
-              </a>
+              </button>
             ))}
           </nav>
 
           <div className="hidden lg:block">
-            <a
-              href="/#contact"
+            <button
+              type="button"
+              onClick={() => scrollToSection("contact")}
               className={`inline-flex min-h-11 items-center justify-center border px-6 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
                 isScrolled
                   ? "border-[#a87868] bg-[#a87868] text-white hover:bg-[#805849]"
@@ -112,7 +200,7 @@ export default function Header() {
               }`}
             >
               Book Consultation
-            </a>
+            </button>
           </div>
 
           <button
@@ -148,10 +236,10 @@ export default function Header() {
               className="flex flex-1 flex-col justify-center"
             >
               {navigationItems.map((item, index) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMenu}
+                <motion.button
+                  key={item.sectionId}
+                  type="button"
+                  onClick={() => scrollToSection(item.sectionId)}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
@@ -165,7 +253,7 @@ export default function Header() {
                   </span>
 
                   {item.label}
-                </motion.a>
+                </motion.button>
               ))}
             </nav>
 
@@ -175,13 +263,13 @@ export default function Header() {
               transition={{ delay: 0.45 }}
               className="mt-8"
             >
-              <a
-                href="/#contact"
-                onClick={closeMenu}
+              <button
+                type="button"
+                onClick={() => scrollToSection("contact")}
                 className="flex min-h-14 w-full items-center justify-center bg-[#a87868] px-6 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >
                 Book a Consultation
-              </a>
+              </button>
 
               <p className="mt-6 text-center text-xs leading-6 text-[#766d69]">
                 With you from the first step
