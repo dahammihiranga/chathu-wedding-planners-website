@@ -5,16 +5,14 @@ import { ArrowUpRight, Check } from "lucide-react";
 import { motion } from "motion/react";
 
 import type { Service } from "@/data/services";
+import PageTransitionLink from "@/components/ui/PageTransitionLink";
 
 type ServiceCardProps = {
   service: Service;
   index: number;
 };
 
-export default function ServiceCard({
-  service,
-  index,
-}: ServiceCardProps) {
+export default function ServiceCard({ service, index }: ServiceCardProps) {
   const Icon = service.icon;
   const serviceNumber = String(service.id).padStart(2, "0");
 
@@ -54,10 +52,7 @@ export default function ServiceCard({
       <div className="relative z-10 flex min-h-[520px] flex-col p-7 sm:p-8">
         <div className="flex items-start justify-between">
           <div className="flex h-14 w-14 items-center justify-center border border-[#ead8d0] bg-[#fff8f4] text-[#a87868] transition-all duration-500 group-hover:border-white/30 group-hover:bg-white/10 group-hover:text-white">
-            <Icon
-              size={23}
-              strokeWidth={1.4}
-            />
+            <Icon size={23} strokeWidth={1.4} />
           </div>
 
           <span className="font-serif text-5xl leading-none text-[#eadfd9] transition-colors duration-500 group-hover:text-white/25">
@@ -85,10 +80,7 @@ export default function ServiceCard({
                 className="flex items-start gap-3 text-sm text-[#665d59] transition-colors duration-500 group-hover:text-white/75"
               >
                 <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#ead8d0] text-[#a87868] transition-colors duration-500 group-hover:bg-white/15 group-hover:text-white">
-                  <Check
-                    size={10}
-                    strokeWidth={2}
-                  />
+                  <Check size={10} strokeWidth={2} />
                 </span>
 
                 <span>{feature}</span>
@@ -96,8 +88,8 @@ export default function ServiceCard({
             ))}
           </ul>
 
-          <a
-            href="#contact"
+          <PageTransitionLink
+            href={service.href}
             className="mt-8 flex items-center justify-between border-t border-[#e9ddd7] pt-5 transition-colors duration-500 group-hover:border-white/20"
           >
             <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2f2927] transition-colors duration-500 group-hover:text-white">
@@ -107,7 +99,7 @@ export default function ServiceCard({
             <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#a87868] text-white transition-all duration-300 group-hover:rotate-45 group-hover:bg-white group-hover:text-[#2f2927]">
               <ArrowUpRight size={17} />
             </span>
-          </a>
+          </PageTransitionLink>
         </div>
       </div>
     </motion.article>

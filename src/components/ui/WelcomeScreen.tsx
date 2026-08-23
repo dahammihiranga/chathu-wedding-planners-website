@@ -432,7 +432,7 @@ export default function WelcomeScreen() {
     sm:text-3xl
   "
             >
-              Curating Your Perfect Moment
+              Turning Dreams Into Timeless Moments
             </motion.h2>
 
             {/* Subtitle */}

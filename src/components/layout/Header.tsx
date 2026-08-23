@@ -51,7 +51,7 @@ export default function Header() {
       <Container>
         <div className="flex items-center justify-between">
           <a
-            href="#home"
+            href="/#home"
             onClick={closeMenu}
             className="relative z-50 flex flex-col"
             aria-label="Chathu Wedding Planners home"
@@ -104,7 +104,7 @@ export default function Header() {
 
           <div className="hidden lg:block">
             <a
-              href="#contact"
+              href="/#contact"
               className={`inline-flex min-h-11 items-center justify-center border px-6 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
                 isScrolled
                   ? "border-[#a87868] bg-[#a87868] text-white hover:bg-[#805849]"
@@ -176,7 +176,7 @@ export default function Header() {
               className="mt-8"
             >
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={closeMenu}
                 className="flex min-h-14 w-full items-center justify-center bg-[#a87868] px-6 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >

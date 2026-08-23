@@ -64,7 +64,7 @@ export default function Footer() {
               duration: 0.7,
             }}
           >
-            <a href="#home">
+            <a href="/#home">
               <Image
                 src="/images/logo/logo.png"
                 alt="Chathu Wedding Planners"

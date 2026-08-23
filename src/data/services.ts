@@ -14,6 +14,7 @@ export type Service = {
   image: string;
   icon: LucideIcon;
   features: string[];
+  href: string;
 };
 
 export const services: Service[] = [
@@ -30,6 +31,7 @@ export const services: Service[] = [
       "Venue and supplier coordination",
       "Budget and timeline planning",
     ],
+    href: "/services/full-wedding-planning",
   },
   {
     id: 2,
@@ -44,6 +46,7 @@ export const services: Service[] = [
       "Remaining supplier coordination",
       "Final preparation support",
     ],
+    href: "/services/partial-wedding-planning",
   },
   {
     id: 3,
@@ -58,6 +61,7 @@ export const services: Service[] = [
       "Supplier and ceremony coordination",
       "Guest and family guidance",
     ],
+    href: "/services/wedding-day-coordination",
   },
   {
     id: 4,
@@ -72,5 +76,6 @@ export const services: Service[] = [
       "Supplier timing schedule",
       "Ceremony and reception flow",
     ],
+    href: "/services/wedding-agenda-making",
   },
 ];

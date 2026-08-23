@@ -1,46 +1,46 @@
 export const footerNavigation = [
   {
     label: "Home",
-    href: "#home",
+    href: "/#home",
   },
   {
     label: "About Us",
-    href: "#about",
+    href: "/#about",
   },
   {
     label: "Services",
-    href: "#services",
+    href: "/#services",
   },
   {
     label: "Portfolio",
-    href: "#portfolio",
+    href: "/#portfolio",
   },
   {
     label: "Testimonials",
-    href: "#testimonials",
+    href: "/#testimonials",
   },
   {
     label: "Book an Appointment",
-    href: "#contact",
+    href: "/#contact",
   },
 ];
 
 export const footerServices = [
   {
     label: "Full Wedding Planning",
-    href: "#services",
+    href: "/services/full-wedding-planning",
   },
   {
     label: "Partial Wedding Planning",
-    href: "#services",
+    href: "/services/partial-wedding-planning",
   },
   {
     label: "Wedding Day Coordination",
-    href: "#services",
+    href: "/services/wedding-day-coordination",
   },
   {
     label: "Wedding Agenda Making",
-    href: "#services",
+    href: "/services/wedding-agenda-making",
   },
 ];
 
