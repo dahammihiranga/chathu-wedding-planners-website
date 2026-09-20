@@ -51,6 +51,16 @@ const jsonLd = {
   ],
 };
 
+// Website structured data for Google site name
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://chathuweddingplanners.com/#website",
+  name: "Chathu Wedding Planners",
+  alternateName: "Chathu",
+  url: "https://chathuweddingplanners.com/",
+};
+
 export default function HomePage() {
   return (
     <>
@@ -58,6 +68,13 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      {/* Website structured data for Google site name */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c"),
         }}
       />
 
